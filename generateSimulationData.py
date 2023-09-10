@@ -82,7 +82,7 @@ def generateSignal(p,q,i,n):
 
   P = PS[:p]
   Q = QS[:q]
-  var = 3 # varianza
+  var = 100 # varianza
 
   PAR = [exog] + P + Q + [var]
 
