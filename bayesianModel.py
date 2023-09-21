@@ -38,20 +38,20 @@ def betas(X,y):
 C = Y.columns
 
 # For each P and Q
-for p in range(4):
-  for q in range(4):
+for p in range(2):
+  for q in range(2):
     # Run model and obtain probability
     st_prob = pd.DataFrame(columns=C)
-    for i in range(50):
+    for i in range(1):
         fn = 'Data/Simulations/BOLD_P' + str(p) + 'Q' + str(q) + 'R' + str(i+1) + '.csv'
         Y = pd.read_csv(fn)
         probs = []
         for c in C:
-            #print(c)
+            print(p,q,c)
             b = betas(X.values,Y[c].values[np.newaxis].T)
             probs.append(sum(b[:,0]>0)/1000)
         st_prob.loc[len(st_prob.index)] = probs 
 
     # Save dataframe
-    fnsave = 'Data/Simulations/BOLD_P' + str(p) + 'Q' + str(q) + '.csv'
+    fnsave = 'Data/Simulations/pMap_P' + str(p) + 'Q' + str(q) + '.csv'
     st_prob.to_csv(fnsave)

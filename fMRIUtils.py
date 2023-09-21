@@ -8,7 +8,12 @@ def jaccardIndex(img1,img2):
 
 def SNR(sPred,sReal):
     e = sPred-sReal
-    return(sPred.mean()/np.linalg.norm(e))
+    return(np.median(sPred)/np.linalg.norm(e))
+
+def CNR(sPred,sReal):
+    a = max(sPred)-np.median(sPred)
+    e = sPred-sReal
+    return(a/np.linalg.norm(e))
 
 def plotImage(img,dim,colorbar = 1):
     plt.imshow(np.reshape(img,(-1,dim)))

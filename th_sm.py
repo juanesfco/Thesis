@@ -58,24 +58,27 @@ def th_sm(Xi,dim=200):
   eta = [] # Initialize eta as an empty array
   k = 0 # Iteration marker
   t = 0 # Termination flag
-  while not(t) and k < 20: # Loop depends on iteration number and flag
+  S = np.arange(0.25,2.50,0.25)
+  while not(t) and k < 5: # Loop depends on iteration number and flag
       ## Step 2. MLE of X[k] *** Can change to find scale using average of st dev of image ***
-      A,B,loc,scale = sp.stats.truncnorm.fit(X[k],fa=0,fb=1)
+      #A,B,loc,scale = sp.stats.truncnorm.fit(X[k],fa=0,fb=1)
+      A,B,loc,scale = 0,1,X[k].mean(),X[k].std()
+      #CAMBIAR
+      #pnorm((0-mean)/sd)-pnorm((1-mean)/sd)
+      #mu+(dnorm((0-mean)/sd)-dnorm((1-mean)/sd))/z * sd
       
       ## Step 3. Apply gaussian smoothing to obtain X[k+1]
-      s = np.exp(k/20) # Value of sigma increases exponentially with iterations
+      s = S[k] # Value of sigma increases with iterations
       # The images are reshaped for the gaussian filter and then flattened agai.
       X.append(sp.ndimage.gaussian_filter(np.reshape(X[k], (-1, dim)),sigma=s).flatten())
-      
+
       ## Step 4. Calculate threeshold
-      # Get rho
-      rho = 0.95 # *** Change: Calculate using TRF of first row ***
       # Get bn - Using values obtained in Step 2
-      bn = rho*sp.stats.truncnorm.ppf(1-1/n,A,B,loc,scale)
+      bn = sp.stats.truncnorm.ppf(1-1/n,A,B,loc,scale)
       # Get an - Using values obtained in Step 2
-      an = rho/(n*sp.stats.truncnorm.pdf(bn/rho,A,B,loc,scale))
+      an = 1/(n*sp.stats.truncnorm.pdf(bn,A,B,loc,scale))
       # Get i - Fitting image to Gumbel distribution and taking upper tail value
-      locg,scaleg = sp.stats.gumbel_r.fit(X[k])
+      locg,scaleg = sp.stats.gumbel_r.fit(X[k+1])
       i = sp.stats.gumbel_r.ppf(0.95,locg,scaleg)
       # Append threeshold to eta array
       eta.append(an*i+bn)
@@ -114,13 +117,13 @@ def th_sm(Xi,dim=200):
   return np.array(Zeta), np.array(N), np.array(eta), np.array(X)
 
 def main(path = 'Data/Simulations/'):
-  for p in range(1): # Change to 4
-      for q in range(1): # Change to 4
-          fn = path + 'stProb_P' + str(p) + 'Q' + str(q) + '.csv' #change name
+  for p in range(2): # Change to 4
+      for q in range(2): # Change to 4
+          fn = path + 'pMap_P' + str(p) + 'Q' + str(q) + '.csv' #change name
           df = pd.read_csv(fn,index_col=0)
-          for i in range(2): # Change to 50
+          for i in range(1): # Change to 50
               X0 = df.loc[i,:].values
-              Zeta, N, eta, X = th_sm(X0)
+              Zeta, N, eta, X = th_sm(X0,50)
               fnZeta = path + 'Zeta_P' + str(p) + 'Q' + str(q) + 'R' + str(i+1) + '.npy'
               fnN = path + 'N_P' + str(p) + 'Q' + str(q) + 'R' + str(i+1) + '.npy'
               fneta = path + 'eta_P' + str(p) + 'Q' + str(q) + 'R' + str(i+1) + '.npy'

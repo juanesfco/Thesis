@@ -33,13 +33,14 @@ X = make_first_level_design_matrix(onset, events, drift_model=None)
 
 # Load Ball Image
 
-imgfn = path + 'ball.png'
+imgfn = path + 'ball_50.png'
+dim_im = 50
 
 img = plt.imread(imgfn)
 
-nimg = np.ones((200,200))
-for i in range(200):
-  for j in range(200):
+nimg = np.ones((dim_im,dim_im))
+for i in range(dim_im):
+  for j in range(dim_im):
     a = img[i,j,3] 
     if a == 1:
       r,g,b = img[i,j,0], img[i,j,1], img[i,j,2]
@@ -48,7 +49,7 @@ for i in range(200):
 fnimg = (nimg-1)*-1
 
 ball = (fnimg>0.5).flatten()
-ballfn = path + 'ball.npy'
+ballfn = path + 'ball_50.npy'
 np.save(ballfn,ball)
 
 # Create Coefficients Array
@@ -58,9 +59,9 @@ v = len(ffnimg)
 Betas = []
 for i in range(v):
   if ffnimg[i] > 0.5:
-    B = np.array([[15],[128]]) # Can be changes
+    B = np.array([[75],[100]]) # Can change
   else:
-    B = np.array([[0],[128]])
+    B = np.array([[0],[100]])
 
   Betas.append(B)
 
@@ -82,7 +83,7 @@ def generateSignal(p,q,i,n):
 
   P = PS[:p]
   Q = QS[:q]
-  var = 100 # varianza
+  var = 20 # varianza
 
   PAR = [exog] + P + Q + [var]
 
@@ -109,12 +110,13 @@ print('BOLD saved')
 
 # Generate and save all signals
 
-for p in range(3,4): # p within [0,1,2,3]
-    for q in range(3,4): # q within [0,1,2,3]
-        print('p:',p,' - q:',q)
+for p in range(0,2): # p within [0,1,2,3]
+    for q in range(0,2): # q within [0,1,2,3]
+        #print('p:',p,' - q:',q)
         for run in range(1): # number of runs
             BOLDs = pd.DataFrame()
             for i in range(v):
+                print('p:',p,' - q:',q,' - v:',i)
                 BOLD = generateSignal(p,q,i,n)
                 cn = 'v'+ str(i+1)
                 BOLDs[cn] = BOLD[:,0]
