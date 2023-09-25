@@ -33,8 +33,8 @@ X = make_first_level_design_matrix(onset, events, drift_model=None)
 
 # Load Ball Image
 
-imgfn = path + 'ball_50.png'
-dim_im = 50
+imgfn = path + 'ball.png'
+dim_im = 200
 
 img = plt.imread(imgfn)
 
@@ -49,7 +49,7 @@ for i in range(dim_im):
 fnimg = (nimg-1)*-1
 
 ball = (fnimg>0.5).flatten()
-ballfn = path + 'ball_50.npy'
+ballfn = path + 'ball.npy'
 np.save(ballfn,ball)
 
 # Create Coefficients Array
@@ -110,13 +110,13 @@ print('BOLD saved')
 
 # Generate and save all signals
 
-for p in range(0,2): # p within [0,1,2,3]
-    for q in range(0,2): # q within [0,1,2,3]
+for p in range(4): # p within [0,1,2,3]
+    for q in range(4): # q within [0,1,2,3]
         #print('p:',p,' - q:',q)
-        for run in range(1): # number of runs
+        for run in range(2): # number of runs
             BOLDs = pd.DataFrame()
             for i in range(v):
-                print('p:',p,' - q:',q,' - v:',i)
+                print('p:',p,' - q:',q,' - r:',run+1,' - v:',i)
                 BOLD = generateSignal(p,q,i,n)
                 cn = 'v'+ str(i+1)
                 BOLDs[cn] = BOLD[:,0]

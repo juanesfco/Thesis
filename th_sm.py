@@ -49,7 +49,6 @@ def th_sm(Xi,dim=200):
         a list of arrays (1D) representing probability maps in
         each iteration
     """
-
   ## Step 1. Initialization
   X = [Xi] # Initialization of X with Xi
   n = len(Xi) # Number of voxels to consider
@@ -58,14 +57,22 @@ def th_sm(Xi,dim=200):
   eta = [] # Initialize eta as an empty array
   k = 0 # Iteration marker
   t = 0 # Termination flag
-  S = np.arange(0.25,2.50,0.25)
-  while not(t) and k < 5: # Loop depends on iteration number and flag
-      ## Step 2. MLE of X[k] *** Can change to find scale using average of st dev of image ***
+  S = np.arange(0.75,3.50,0.25)
+  while not(t) and k < 9: # Loop depends on iteration number and flag
+      ## Step 2. Fit X[k] to a truncated normal distribution between 0 and 1
       #A,B,loc,scale = sp.stats.truncnorm.fit(X[k],fa=0,fb=1)
-      A,B,loc,scale = 0,1,X[k].mean(),X[k].std()
-      #CAMBIAR
-      #pnorm((0-mean)/sd)-pnorm((1-mean)/sd)
-      #mu+(dnorm((0-mean)/sd)-dnorm((1-mean)/sd))/z * sd
+      A,B,mu,sigma = 0,1,X[k].mean(),X[k].std()
+
+      alpha,beta = (A - mu)/sigma, (B - mu)/sigma
+      Z = sp.stats.norm.cdf(beta) - sp.stats.norm.cdf(alpha)
+      phi_alpha = sp.stats.norm.pdf(alpha)
+      phi_beta = sp.stats.norm.pdf(beta)
+
+      loc = mu+((phi_alpha-phi_beta)/Z)*sigma 
+      var = (sigma**2)*(1-((beta*phi_beta-alpha*phi_alpha)/Z)-((phi_alpha-phi_beta)/Z)**2)
+      scale = var**(0.5)
+      #print('mu: ',mu, 'sigma: ', sigma)
+      #print('loc: ',loc, 'scale: ', scale)
       
       ## Step 3. Apply gaussian smoothing to obtain X[k+1]
       s = S[k] # Value of sigma increases with iterations
@@ -105,7 +112,7 @@ def th_sm(Xi,dim=200):
         J_2 = fmriu.jaccardIndex(Zeta[k-1],Zeta[k])
         if J_1 >= J_2:
           t = 1
-          print('termination by Jaccard Index')
+          print('Termination by Jaccard Index in ', k, ' iterations.')
           # Eliminate the last values of the list because the Jaccard Index descreased.
           Zeta.pop()
           N.pop()
@@ -116,14 +123,20 @@ def th_sm(Xi,dim=200):
       k += 1
   return np.array(Zeta), np.array(N), np.array(eta), np.array(X)
 
-def main(path = 'Data/Simulations/'):
-  for p in range(2): # Change to 4
-      for q in range(2): # Change to 4
+# Original ball
+b = np.load('Data/ball.npy')
+
+def main(path = 'Data/Simulations/',original=b):
+  for p in range(4): # Change to 4
+      for q in range(4): # Change to 4
           fn = path + 'pMap_P' + str(p) + 'Q' + str(q) + '.csv' #change name
-          df = pd.read_csv(fn,index_col=0)
-          for i in range(1): # Change to 50
+          df = pd.read_csv(fn)
+          for i in range(2): # Change to 50
               X0 = df.loc[i,:].values
-              Zeta, N, eta, X = th_sm(X0,50)
+              print("For P,Q,R: ",p,q,i+1)
+              Zeta, N, eta, X = th_sm(X0)
+              print("Final Jaccard Index wrt Original Ball: ",fmriu.jaccardIndex(Zeta[len(Zeta)-1],b))
+              print()
               fnZeta = path + 'Zeta_P' + str(p) + 'Q' + str(q) + 'R' + str(i+1) + '.npy'
               fnN = path + 'N_P' + str(p) + 'Q' + str(q) + 'R' + str(i+1) + '.npy'
               fneta = path + 'eta_P' + str(p) + 'Q' + str(q) + 'R' + str(i+1) + '.npy'
