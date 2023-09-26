@@ -23,7 +23,7 @@ import numpy as np
 import pandas as pd
 import fMRIUtils as fmriu
 
-def th_sm(Xi,dim=200):
+def th_sm(Xi,dim):
   """Adaptive smoothing and threesholding algorithm to estimate 
     activation maps.
 
@@ -123,28 +123,26 @@ def th_sm(Xi,dim=200):
       k += 1
   return np.array(Zeta), np.array(N), np.array(eta), np.array(X)
 
-# Original ball
-b = np.load('Data/ball.npy')
-
-def main(path = 'Data/Simulations/',original=b):
-  for p in range(4): # Change to 4
-      for q in range(4): # Change to 4
-          fn = path + 'pMap_P' + str(p) + 'Q' + str(q) + '.csv' #change name
+def main(imName, dim, pmin, pmax, qmin, qmax, R ,path = 'Data/Simulations/'):
+  fn_ball = path + imName + '_' + str(dim) + '.npy'
+  b = np.load(fn_ball)
+  for p in range(pmin,pmax): # Change to 4
+      for q in range(qmin,qmax): # Change to 4
+          fn = path + 'pMaps_P' + str(p) + 'Q' + str(q) + '.csv'
           df = pd.read_csv(fn)
-          for i in range(2): # Change to 50
-              X0 = df.loc[i,:].values
-              print("For P,Q,R: ",p,q,i+1)
-              Zeta, N, eta, X = th_sm(X0)
+          for r in range(R): # Change to 50
+              X0 = df.loc[r,:].values
+              print("For P,Q,R: ",p,q,r+1)
+              Zeta, N, eta, X = th_sm(X0,dim)
               print("Final Jaccard Index wrt Original Ball: ",fmriu.jaccardIndex(Zeta[len(Zeta)-1],b))
-              print()
-              fnZeta = path + 'Zeta_P' + str(p) + 'Q' + str(q) + 'R' + str(i+1) + '.npy'
-              fnN = path + 'N_P' + str(p) + 'Q' + str(q) + 'R' + str(i+1) + '.npy'
-              fneta = path + 'eta_P' + str(p) + 'Q' + str(q) + 'R' + str(i+1) + '.npy'
-              fnX = path + 'X_P' + str(p) + 'Q' + str(q) + 'R' + str(i+1) + '.npy'
+              fnZeta = path + 'Zeta_P' + str(p) + 'Q' + str(q) + 'R' + str(r+1) + '.npy'
+              fnN = path + 'N_P' + str(p) + 'Q' + str(q) + 'R' + str(r+1) + '.npy'
+              fneta = path + 'eta_P' + str(p) + 'Q' + str(q) + 'R' + str(r+1) + '.npy'
+              fnX = path + 'X_P' + str(p) + 'Q' + str(q) + 'R' + str(r+1) + '.npy'
               np.save(fnZeta,Zeta)
               np.save(fnN,N)
               np.save(fneta,eta)
               np.save(fnX,X)
 
 if __name__ == "__main__":
-    main()
+    main(sys.argv[1],int(sys.argv[2]),int(sys.argv[3]),int(sys.argv[4]),int(sys.argv[5]),int(sys.argv[6]),int(sys.argv[7]))

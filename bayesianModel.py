@@ -2,11 +2,6 @@ import numpy as np
 from scipy.stats import invgamma
 import pandas as pd
 
-# Import design matrix and one example of signal
-
-X = pd.read_csv('Data/Simulations/X.csv')
-Y = pd.read_csv('Data/Simulations/BOLD_P0Q0R1.csv')
-
 # Define Bayesian model function
 
 def betas(X,y):
@@ -34,24 +29,28 @@ def betas(X,y):
 
   return(betas)
 
-# Column labels
-C = Y.columns
+def main(pmin, pmax, qmin, qmax, R, path = 'Data/Simulations/'):
+  fn_X = path + 'X.csv'
+  X = pd.read_csv(fn_X)
+  # For each P and Q
+  for p in range(pmin,pmax):
+    for q in range(qmin,qmax):
+      # Run model and obtain probability
+      pMaps_ar = []
+      for r in range(R):
+          fn = path + 'BOLD_P' + str(p) + 'Q' + str(q) + 'R' + str(r+1) + '.csv'
+          Y = pd.read_csv(fn)
+          probs = []
+          for v in Y.columns:
+              print('p:',p,' - q:',q,' - r:',r+1,'v: ', v)
+              b = betas(X.values,Y[v].values[np.newaxis].T)
+              probs.append(sum(b[:,0]>0)/1000)
+          pMaps_ar.append(probs)
+      pMaps = pd.DataFrame(np.array(pMaps_ar))
+      # Save dataframe
+      fnsave = path + 'pMaps_P' + str(p) + 'Q' + str(q) + '.csv'
+      pMaps.to_csv(fnsave,index=False)
+  print('Probability Maps Saved')
 
-# For each P and Q
-for p in range(4):
-  for q in range(4):
-    # Run model and obtain probability
-    pMap = pd.DataFrame(columns=C)
-    for i in range(2):
-        fn = 'Data/Simulations/BOLD_P' + str(p) + 'Q' + str(q) + 'R' + str(i+1) + '.csv'
-        Y = pd.read_csv(fn)
-        probs = []
-        for c in C:
-            print(p,q,c)
-            b = betas(X.values,Y[c].values[np.newaxis].T)
-            probs.append(sum(b[:,0]>0)/1000)
-        pMap.loc[len(pMap.index)] = probs 
-
-    # Save dataframe
-    fnsave = 'Data/Simulations/pMap_P' + str(p) + 'Q' + str(q) + '.csv'
-    pMap.to_csv(fnsave,index=False)
+if __name__ == "__main__":
+    main(int(sys.argv[1]),int(sys.argv[2]),int(sys.argv[3]),int(sys.argv[4]),int(sys.argv[5]))

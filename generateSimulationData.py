@@ -4,121 +4,107 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from nilearn.glm.first_level import make_first_level_design_matrix
 from statsmodels.tsa.arima.model import ARIMA as ARIMA
-
-# Path to data
-
-path = './Data/'
-
-# Generate Simulated Experiment Events and Design Matrix
-
-rt = 2 # repetition time
-n = 100 # number of scans
-onset = np.arange(n) * rt
-duration = np.ones(100)*2
-trial_type = np.ones(100)*np.nan
-
-st = [random.randint(5,12)]
-for i in range(3):
-  sti = st[i] + random.randint(18,25)
-  st.append(sti)
-
-for s in st:
-  duration[s] = 10
-  trial_type[s] = 1
-
-events = pd.DataFrame({'trial_type':trial_type, 'onset':onset, 'duration': duration})
-events.replace(1,'st',inplace=True)
-
-X = make_first_level_design_matrix(onset, events, drift_model=None)
-
-# Load Ball Image
-
-imgfn = path + 'ball.png'
-dim_im = 200
-
-img = plt.imread(imgfn)
-
-nimg = np.ones((dim_im,dim_im))
-for i in range(dim_im):
-  for j in range(dim_im):
-    a = img[i,j,3] 
-    if a == 1:
-      r,g,b = img[i,j,0], img[i,j,1], img[i,j,2]
-      nimg[i,j] = max(r,g,b)
-
-fnimg = (nimg-1)*-1
-
-ball = (fnimg>0.5).flatten()
-ballfn = path + 'ball.npy'
-np.save(ballfn,ball)
-
-# Create Coefficients Array
-
-ffnimg = fnimg.flatten()
-v = len(ffnimg)
-Betas = []
-for i in range(v):
-  if ffnimg[i] > 0.5:
-    B = np.array([[75],[100]]) # Can change
-  else:
-    B = np.array([[0],[100]])
-
-  Betas.append(B)
-
-# BOLD Signal without Noise
-
-y = []
-for i in range(v):
-  y.append(X.values@Betas[i])
+from PIL import Image
 
 # Function to Generate Signal with Noise
 
-def generateSignal(p,q,i,n):
-  M = ARIMA(y[i],order=(p,0,q))
-
+def generateNoise(Y,p,q):
+  Y_Noise = []
   exog = 0 # media
-
   PS = [0.5, 0.3, 0.1]
   QS = [0.5, 0.3, 0.1]
-
   P = PS[:p]
   Q = QS[:q]
   var = 20 # varianza
-
   PAR = [exog] + P + Q + [var]
+  N = len(Y[0])
 
-  e = M.simulate(PAR,n)
-  e = e[np.newaxis].T
+  for vox in range(len(Y)):
+    M = ARIMA(Y[vox],order=(p,0,q))
+    
+    e = M.simulate(PAR,N)
+    e = e[np.newaxis].T
 
-  return(y[i] + e)
+    Y_Noise.append(Y[vox] + e)
+  
+  return(pd.DataFrame((np.array(Y_Noise)[:,:,0]).T))
 
-# Save Design Matrix and BOLD without Noise
+def main(imName, dim, pmin, pmax, qmin, qmax, R, path = 'Data/Simulations/'):
+  # Generate Simulated Experiment Events and Design Matrix
+  rt = 2 # repetition time
+  n = 100 # number of scans
+  onset = np.arange(n) * rt
+  duration = np.ones(100)*2
+  trial_type = np.ones(100)*np.nan
 
-X_fn = path + 'Simulations/X.csv'
-X.to_csv(X_fn,index=False)
+  st = [random.randint(5,12)]
+  for i in range(3):
+    sti = st[i] + random.randint(18,25)
+    st.append(sti)
 
-print('X saved')
+  for s in st:
+    duration[s] = 10
+    trial_type[s] = 1
 
-BOLDs = pd.DataFrame()
-for i in range(v):
-    cn = 'v' + str(i+1)
-    BOLDs[cn] = y[i][:,0]
-BOLD_fn = path + 'Simulations/BOLD.csv'
-BOLDs.to_csv(BOLD_fn,index=False)
+  events = pd.DataFrame({'trial_type':trial_type, 'onset':onset, 'duration': duration})
+  events.replace(1,'st',inplace=True)
 
-print('BOLD saved')
+  X = make_first_level_design_matrix(onset, events, drift_model=None)
 
-# Generate and save all signals
+  # Load Ball Image
+  fn_img = path + imName + '.png'
+  img_open = Image.open(fn_img)
+  img_resize = img_open.resize((dim,dim))
+  img = np.array(img_resize)
 
-for p in range(4): # p within [0,1,2,3]
-    for q in range(4): # q within [0,1,2,3]
-        #print('p:',p,' - q:',q)
-        for run in range(2): # number of runs
-            BOLDs = pd.DataFrame()
-            for i in range(v):
-                print('p:',p,' - q:',q,' - r:',run+1,' - v:',i)
-                BOLD = generateSignal(p,q,i,n)
-                cn = 'v'+ str(i+1)
-                BOLDs[cn] = BOLD[:,0]
-            BOLDPQR_fn = path + 'Simulations/BOLD_P' + str(p) + 'Q' + str(q) + 'R' + str(run+1) + '.csv'
-            BOLDs.to_csv(BOLDPQR_fn,index=False)
+  img_activated = np.amax(img[:,:,0:3],axis=2)<128
+  img_mask = img[:,:,3]==255
+  img_final = np.logical_and(img_activated,img_mask).flatten()
+  
+  fn_ball = path + imName + '_' + str(dim) + '.npy'
+  np.save(fn_ball,img_final)
+
+  # Create Coefficients Array
+
+  V = len(img_final)
+  Betas = []
+  for p in img_final:
+    if p:
+      B = np.array([[75],[100]]) # Can change
+    else:
+      B = np.array([[0],[100]])
+
+    Betas.append(B)
+
+  # BOLD Signal without Noise
+
+  y = []
+  for b in Betas:
+    y.append(X.values@b)
+
+  # Save Design Matrix and BOLD without Noise
+
+  fn_X = path + 'X.csv'
+  X.to_csv(fn_X,index=False)
+
+  print('X saved')
+
+  BOLDs = pd.DataFrame((np.array(y)[:,:,0]).T)
+  fn_BOLD = path + 'BOLD.csv'
+  BOLDs.to_csv(fn_BOLD,index=False)
+
+  print('BOLD saved')
+
+  # Generate and save all signals
+
+  for p in range(pmin,pmax): # p within [0,1,2,3]
+      for q in range(qmin,qmax): # q within [0,1,2,3]
+          for r in range(R): # number of runs
+              print('p:',p,' - q:',q,' - r:',r+1)
+              df_BOLD = generateNoise(y,p,q)
+              fn_BOLDPQR = path + 'BOLD_P' + str(p) + 'Q' + str(q) + 'R' + str(r+1) + '.csv'
+              df_BOLD.to_csv(fn_BOLDPQR,index=False)
+  print('BOLD with Noise Saved')
+
+if __name__ == "__main__":
+    main(sys.argv[1],int(sys.argv[2]),int(sys.argv[3]),int(sys.argv[4]),int(sys.argv[5]),int(sys.argv[6]),int(sys.argv[7]))
