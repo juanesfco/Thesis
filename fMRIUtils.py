@@ -19,3 +19,5 @@ def plotImage(img,dim,colorbar = 1):
     plt.imshow(np.reshape(img,(-1,dim)))
     if colorbar:
         plt.colorbar()
+    plt.axis('off')
+    plt.show()
