@@ -2,6 +2,7 @@ import numpy as np
 from scipy.stats import invgamma
 import pandas as pd
 import os
+import sys
 
 # Define Bayesian model function
 
