@@ -1,6 +1,7 @@
 import numpy as np
 from scipy.stats import invgamma
 import pandas as pd
+import os
 
 # Define Bayesian model function
 
@@ -39,13 +40,18 @@ def main(pmin, pmax, qmin, qmax, R, path = 'Data/Simulations/'):
       pMaps_ar = []
       for r in range(R):
           fn = path + 'BOLD_P' + str(p) + 'Q' + str(q) + 'R' + str(r+1) + '.csv'
-          Y = pd.read_csv(fn)
-          probs = []
-          for v in Y.columns:
-              print('p:',p,' - q:',q,' - r:',r+1,'v: ', v)
-              b = betas(X.values,Y[v].values[np.newaxis].T)
-              probs.append(sum(b[:,0]>0)/1000)
-          pMaps_ar.append(probs)
+          m = True
+          while m:
+            mm = os.path.isfile(fn)
+            if mm:
+              Y = pd.read_csv(fn)
+              probs = []
+              for v in Y.columns:
+                  print('p:',p,' - q:',q,' - r:',r+1,'v: ', v)
+                  b = betas(X.values,Y[v].values[np.newaxis].T)
+                  probs.append(sum(b[:,0]>0)/1000)
+              pMaps_ar.append(probs)
+              m = False
       pMaps = pd.DataFrame(np.array(pMaps_ar))
       # Save dataframe
       fnsave = path + 'pMaps_P' + str(p) + 'Q' + str(q) + '.csv'
