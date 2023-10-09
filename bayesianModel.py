@@ -3,6 +3,7 @@ from scipy.stats import invgamma
 import pandas as pd
 import os
 import sys
+import time
 
 # Define Bayesian model function
 
@@ -45,6 +46,7 @@ def main(pmin, pmax, qmin, qmax, R, path = 'Data/Simulations/'):
           while m:
             mm = os.path.isfile(fn)
             if mm:
+              time.sleep(30)
               Y = pd.read_csv(fn)
               probs = []
               for v in Y.columns:

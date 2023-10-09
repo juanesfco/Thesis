@@ -24,6 +24,7 @@ import pandas as pd
 import fMRIUtils as fmriu
 import sys
 import os
+import time
 
 def th_sm(Xi,dim):
   """Adaptive smoothing and threesholding algorithm to estimate 
@@ -135,6 +136,7 @@ def main(imName, dim, pmin, pmax, qmin, qmax, R ,path = 'Data/Simulations/'):
           while m:
             mm = os.path.isfile(fn)
             if mm:
+              time.sleep(30)
               df = pd.read_csv(fn)
               for r in range(R): # Change to 50
                   X0 = df.loc[r,:].values
