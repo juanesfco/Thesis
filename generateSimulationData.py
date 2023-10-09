@@ -15,7 +15,7 @@ def generateNoise(Y,p,q):
   QS = [0.5, 0.3, 0.1]
   P = PS[:p]
   Q = QS[:q]
-  var = 20 # varianza
+  var = 25**2 # varianza
   PAR = [exog] + P + Q + [var]
   N = len(Y[0])
 
