@@ -22,6 +22,8 @@ import scipy as sp
 import numpy as np
 import pandas as pd
 import fMRIUtils as fmriu
+import sys
+import os
 
 def th_sm(Xi,dim):
   """Adaptive smoothing and threesholding algorithm to estimate 
@@ -129,20 +131,25 @@ def main(imName, dim, pmin, pmax, qmin, qmax, R ,path = 'Data/Simulations/'):
   for p in range(pmin,pmax): # Change to 4
       for q in range(qmin,qmax): # Change to 4
           fn = path + 'pMaps_P' + str(p) + 'Q' + str(q) + '.csv'
-          df = pd.read_csv(fn)
-          for r in range(R): # Change to 50
-              X0 = df.loc[r,:].values
-              print("For P,Q,R: ",p,q,r+1)
-              Zeta, N, eta, X = th_sm(X0,dim)
-              print("Final Jaccard Index wrt Original Ball: ",fmriu.jaccardIndex(Zeta[len(Zeta)-1],b))
-              fnZeta = path + 'Zeta_P' + str(p) + 'Q' + str(q) + 'R' + str(r+1) + '.npy'
-              fnN = path + 'N_P' + str(p) + 'Q' + str(q) + 'R' + str(r+1) + '.npy'
-              fneta = path + 'eta_P' + str(p) + 'Q' + str(q) + 'R' + str(r+1) + '.npy'
-              fnX = path + 'X_P' + str(p) + 'Q' + str(q) + 'R' + str(r+1) + '.npy'
-              np.save(fnZeta,Zeta)
-              np.save(fnN,N)
-              np.save(fneta,eta)
-              np.save(fnX,X)
+          m = True
+          while m:
+            mm = os.path.isfile(fn)
+            if mm:
+              df = pd.read_csv(fn)
+              for r in range(R): # Change to 50
+                  X0 = df.loc[r,:].values
+                  print("For P,Q,R: ",p,q,r+1)
+                  Zeta, N, eta, X = th_sm(X0,dim)
+                  print("Final Jaccard Index wrt Original Ball: ",fmriu.jaccardIndex(Zeta[len(Zeta)-1],b))
+                  fnZeta = path + 'Zeta_P' + str(p) + 'Q' + str(q) + 'R' + str(r+1) + '.npy'
+                  fnN = path + 'N_P' + str(p) + 'Q' + str(q) + 'R' + str(r+1) + '.npy'
+                  fneta = path + 'eta_P' + str(p) + 'Q' + str(q) + 'R' + str(r+1) + '.npy'
+                  fnX = path + 'X_P' + str(p) + 'Q' + str(q) + 'R' + str(r+1) + '.npy'
+                  np.save(fnZeta,Zeta)
+                  np.save(fnN,N)
+                  np.save(fneta,eta)
+                  np.save(fnX,X)
+              m = False
 
 if __name__ == "__main__":
     main(sys.argv[1],int(sys.argv[2]),int(sys.argv[3]),int(sys.argv[4]),int(sys.argv[5]),int(sys.argv[6]),int(sys.argv[7]))
