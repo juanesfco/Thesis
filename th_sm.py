@@ -136,6 +136,7 @@ def main(imName, dim, pmin, pmax, qmin, qmax, R ,path = 'Data/Simulations/'):
           while m:
             mm = os.path.isfile(fn)
             if mm:
+              print(fn, " found, sleeping 30 seconds.")
               time.sleep(30)
               df = pd.read_csv(fn)
               for r in range(R): # Change to 50

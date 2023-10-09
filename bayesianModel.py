@@ -46,6 +46,7 @@ def main(pmin, pmax, qmin, qmax, R, path = 'Data/Simulations/'):
           while m:
             mm = os.path.isfile(fn)
             if mm:
+              print(fn, " found, sleeping 30 seconds.")
               time.sleep(30)
               Y = pd.read_csv(fn)
               probs = []
