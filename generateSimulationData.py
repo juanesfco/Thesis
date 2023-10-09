@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 from nilearn.glm.first_level import make_first_level_design_matrix
 from statsmodels.tsa.arima.model import ARIMA as ARIMA
 from PIL import Image
+import sys
 
 # Function to Generate Signal with Noise
 
