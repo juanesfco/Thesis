@@ -1,0 +1,7 @@
+mu = 0.2
+sigma = 0.1
+X = np.linspace(0,1,50)
+Y = []
+for xx in X:
+  Y.append(diff(((1-CDF(x,mu,sigma))/PDF(x,mu,sigma)),x).subs(x,xx))
+plot(X,Y)

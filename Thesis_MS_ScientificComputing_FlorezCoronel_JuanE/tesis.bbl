@@ -1,0 +1,113 @@
+\begin{thebibliography}{10}
+
+\bibitem{de2013evolution}
+P.~M.~C. de~Oliveira and D.~Stauffer, {\em Evolution, Money, War, and Computers: Non-Traditional Applications of Computational Statistical Physics}, vol.~34.
+\newblock Springer Science \& Business Media, 2013.
+
+\bibitem{willie2014integrative}
+C.~K. Willie, Y.-C. Tzeng, J.~A. Fisher, and P.~N. Ainslie, ``Integrative regulation of human brain blood flow,'' {\em The Journal of physiology}, vol.~592, no.~5, pp.~841--859, 2014.
+
+\bibitem{friston1996detecting}
+K.~J. Friston, A.~Holmes, J.-B. Poline, C.~J. Price, and C.~D. Frith, ``Detecting activations in pet and fmri: levels of inference and power,'' {\em Neuroimage}, vol.~4, no.~3, pp.~223--235, 1996.
+
+\bibitem{penny2011statistical}
+W.~D. Penny, K.~J. Friston, J.~T. Ashburner, S.~J. Kiebel, and T.~E. Nichols, {\em Statistical parametric mapping: the analysis of functional brain images}.
+\newblock Elsevier, 2011.
+
+\bibitem{poline1997combining}
+J.-B. Poline, K.~J. Worsley, A.~C. Evans, and K.~J. Friston, ``Combining spatial extent and peak intensity to test for activations in functional imaging,'' {\em Neuroimage}, vol.~5, no.~2, pp.~83--96, 1997.
+
+\bibitem{mclntosh1994structural}
+A.~Mclntosh and F.~Gonzalez-Lima, ``Structural equation modeling and its application to network analysis in functional brain imaging,'' {\em Human brain mapping}, vol.~2, no.~1-2, pp.~2--22, 1994.
+
+\bibitem{beckmann2003general}
+C.~F. Beckmann, M.~Jenkinson, and S.~M. Smith, ``General multilevel linear modeling for group analysis in fmri,'' {\em Neuroimage}, vol.~20, no.~2, pp.~1052--1063, 2003.
+
+\bibitem{worsley2002general}
+K.~J. Worsley, C.~H. Liao, J.~Aston, V.~Petre, G.~Duncan, F.~Morales, and A.~C. Evans, ``A general statistical analysis for fmri data,'' {\em Neuroimage}, vol.~15, no.~1, pp.~1--15, 2002.
+
+\bibitem{westbrook2018mri}
+C.~Westbrook and J.~Talbot, {\em MRI in Practice}.
+\newblock John Wiley \& Sons, 2018.
+
+\bibitem{logothetis2008we}
+N.~K. Logothetis, ``What we can do and what we cannot do with fmri,'' {\em Nature}, vol.~453, no.~7197, pp.~869--878, 2008.
+
+\bibitem{norman2006beyond}
+K.~A. Norman, S.~M. Polyn, G.~J. Detre, and J.~V. Haxby, ``Beyond mind-reading: multi-voxel pattern analysis of fmri data,'' {\em Trends in cognitive sciences}, vol.~10, no.~9, pp.~424--430, 2006.
+
+\bibitem{logothetis2004nature}
+N.~K. Logothetis and J.~Pfeuffer, ``On the nature of the bold fmri contrast mechanism,'' {\em Magnetic resonance imaging}, vol.~22, no.~10, pp.~1517--1531, 2004.
+
+\bibitem{abraham2014machine}
+A.~Abraham, F.~Pedregosa, M.~Eickenberg, P.~Gervais, A.~Mueller, J.~Kossaifi, A.~Gramfort, B.~Thirion, and G.~Varoquaux, ``Machine learning for neuroimaging with scikit-learn,'' {\em Frontiers in neuroinformatics}, vol.~8, p.~14, 2014.
+
+\bibitem{luo2003diagnosis}
+W.-L. Luo and T.~E. Nichols, ``Diagnosis and exploration of massively univariate neuroimaging models,'' {\em NeuroImage}, vol.~19, no.~3, pp.~1014--1032, 2003.
+
+\bibitem{friston1994statistical}
+K.~J. Friston, A.~P. Holmes, K.~J. Worsley, J.-P. Poline, C.~D. Frith, and R.~S. Frackowiak, ``Statistical parametric maps in functional imaging: a general linear approach,'' {\em Human brain mapping}, vol.~2, no.~4, pp.~189--210, 1994.
+
+\bibitem{lindquist2008statistical}
+M.~A. Lindquist, ``The statistical analysis of fmri data,'' {\em Statistical Science}, vol.~23, no.~4, pp.~439 -- 464, 2008.
+
+\bibitem{welvaert2013definition}
+M.~Welvaert and Y.~Rosseel, ``On the definition of signal-to-noise ratio and contrast-to-noise ratio for fmri data,'' {\em PloS one}, vol.~8, no.~11, p.~e77089, 2013.
+
+\bibitem{jaccard1901etude}
+P.~Jaccard, ``{\'E}tude comparative de la distribution florale dans une portion des alpes et des jura,'' {\em Bull Soc Vaudoise Sci Nat}, vol.~37, pp.~547--579, 1901.
+
+\bibitem{maitra2010re}
+R.~Maitra, ``A re-defined and generalized percent-overlap-of-activation measure for studies of fmri reproducibility and its use in identifying outlier activation maps,'' {\em Neuroimage}, vol.~50, no.~1, pp.~124--135, 2010.
+
+\bibitem{bolstad2016introduction}
+W.~M. Bolstad and J.~M. Curran, {\em Introduction to Bayesian statistics}.
+\newblock John Wiley \& Sons, 2016.
+
+\bibitem{fornacon2022understanding}
+I.~Fornacon-Wood, H.~Mistry, C.~Johnson-Hart, C.~Faivre-Finn, J.~P. O'Connor, and G.~J. Price, ``Understanding the differences between bayesian and frequentist statistics,'' {\em International journal of radiation oncology, biology, physics}, vol.~112, no.~5, pp.~1076--1082, 2022.
+
+\bibitem{gelman2002prior}
+A.~Gelman, ``Prior distribution,'' {\em Encyclopedia of environmetrics}, vol.~3, no.~4, pp.~1634--1637, 2002.
+
+\bibitem{gelman2013bayesian}
+A.~Gelman, J.~B. Carlin, H.~S. Stern, D.~B. Dunson, A.~Vehtari, and D.~B. Rubin, {\em Bayesian data analysis}.
+\newblock CRC press, 2013.
+
+\bibitem{stone2013bayes}
+J.~V. Stone, {\em Bayes' rule: a tutorial introduction to Bayesian analysis}.
+\newblock Sebtel Press, 2013.
+
+\bibitem{burkardt2014truncated}
+J.~Burkardt, ``The truncated normal distribution,'' {\em Department of Scientific Computing Website, Florida State University}, vol.~1, p.~35, 2014.
+
+\bibitem{johnson1995continuous}
+N.~L. Johnson, S.~Kotz, and N.~Balakrishnan, {\em Continuous univariate distributions, volume 2}, vol.~289.
+\newblock John wiley \& sons, 1995.
+
+\bibitem{david2004order}
+H.~A. David and H.~N. Nagaraja, {\em Order statistics}.
+\newblock John Wiley \& Sons, 2004.
+
+\bibitem{nadarajah2004beta}
+S.~Nadarajah, S.~Kotz, {\em et~al.}, ``The beta gumbel distribution,'' {\em Mathematical Problems in engineering}, vol.~2004, pp.~323--332, 2004.
+
+\bibitem{garg2016quality}
+B.~Garg and G.~Sharma, ``A quality-aware energy-scalable gaussian smoothing filter for image processing applications,'' {\em Microprocessors and Microsystems}, vol.~45, pp.~1--9, 2016.
+
+\bibitem{nmeth2020scipy}
+P.~Virtanen, R.~Gommers, T.~E. Oliphant, M.~Haberland, T.~Reddy, D.~Cournapeau, E.~Burovski, P.~Peterson, W.~Weckesser, J.~Bright, S.~J. {van der Walt}, M.~Brett, J.~Wilson, K.~J. Millman, N.~Mayorov, A.~R.~J. Nelson, E.~Jones, R.~Kern, E.~Larson, C.~J. Carey, {\.I}.~Polat, Y.~Feng, E.~W. Moore, J.~{VanderPlas}, D.~Laxalde, J.~Perktold, R.~Cimrman, I.~Henriksen, E.~A. Quintero, C.~R. Harris, A.~M. Archibald, A.~H. Ribeiro, F.~Pedregosa, P.~{van Mulbregt}, and {SciPy 1.0 Contributors}, ``{{SciPy} 1.0: Fundamental Algorithms for Scientific Computing in Python},'' {\em Nature Methods}, vol.~17, pp.~261--272, 2020.
+
+\bibitem{almodovar2019fast}
+I.~Almod{\'o}var-Rivera and R.~Maitra, ``Fast adaptive smoothing and thresholding for improved activation detection in low-signal fmri,'' {\em IEEE Transactions on Medical Imaging}, vol.~38, no.~12, pp.~2821--2828, 2019.
+
+\bibitem{deneux2006using}
+T.~Deneux and O.~Faugeras, ``Using nonlinear models in fmri data analysis: model selection and activation detection,'' {\em NeuroImage}, vol.~32, no.~4, pp.~1669--1689, 2006.
+
+\bibitem{lai1999novel}
+S.-H. Lai and M.~Fang, ``A novel local pca-based method for detecting activation signals in fmri,'' {\em Magnetic resonance imaging}, vol.~17, no.~6, pp.~827--836, 1999.
+
+\bibitem{orchard2003simultaneous}
+J.~Orchard, C.~Greif, G.~H. Golub, B.~Bjornson, and M.~S. Atkins, ``Simultaneous registration and activation detection for fmri,'' {\em IEEE transactions on medical imaging}, vol.~22, no.~11, pp.~1427--1435, 2003.
+
+\end{thebibliography}

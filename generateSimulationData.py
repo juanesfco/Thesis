@@ -108,4 +108,4 @@ def main(imName, dim, pmin, pmax, qmin, qmax, R, path = 'Data/Simulations/'):
   print('BOLD with Noise Saved')
 
 if __name__ == "__main__":
-    main(sys.argv[1],int(sys.argv[2]),int(sys.argv[3]),int(sys.argv[4]),int(sys.argv[5]),int(sys.argv[6]),int(sys.argv[7]))
+    main(sys.argv[1],int(sys.argv[2]),int(sys.argv[3]),int(sys.argv[4]),int(sys.argv[5]),int(sys.argv[6]),int(sys.argv[7]),sys.argv[8])

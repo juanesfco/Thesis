@@ -26,6 +26,9 @@ import fMRIUtils as fmriu
 import sys
 import os
 import time
+from nilearn.masking import unmask
+from nilearn.masking import apply_mask
+from nilearn.image import new_img_like
 
 def th_sm(Xi,dim):
   """Adaptive smoothing and threesholding algorithm to estimate 
@@ -81,7 +84,14 @@ def th_sm(Xi,dim):
       ## Step 3. Apply gaussian smoothing to obtain X[k+1]
       s = S[k] # Value of sigma increases with iterations
       # The images are reshaped for the gaussian filter and then flattened agai.
-      X.append(sp.ndimage.gaussian_filter(np.reshape(X[k], (-1, dim)),sigma=s).flatten())
+      if type(dim) == int:
+        X.append(sp.ndimage.gaussian_filter(np.reshape(X[k], (-1, dim)),sigma=s).flatten())
+      else:
+        UM = unmask(X[k],dim)
+        Xk_UM = UM.get_fdata()[:,:,:]
+        GF = sp.ndimage.gaussian_filter(Xk_UM,sigma=s)
+        NIFTI = new_img_like(UM,GF)
+        X.append(apply_mask(NIFTI,dim))
 
       ## Step 4. Calculate threeshold
       # Get bn - Using values obtained in Step 2
