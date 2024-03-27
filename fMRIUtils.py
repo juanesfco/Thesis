@@ -15,9 +15,11 @@ def CNR(sPred,sReal):
     e = sPred-sReal
     return(a/e.std())
 
-def plotImage(img,dim,colorbar = 1):
-    plt.imshow(np.reshape(img,(-1,dim)))
-    if colorbar:
-        plt.colorbar()
-    plt.axis('off')
-    plt.show()
+def plot2DImage(imgNPArray,dim,save,fn):
+    fig, ax = plt.subplots(figsize=(2,2))
+    ax.imshow(imgNPArray,cmap='YlOrRd')
+    ax.axes.get_xaxis().set_ticks([])
+    ax.axes.get_yaxis().set_ticks([])
+    if save:
+        fnsvg = fn + '.svg'
+        fig.savefig(fnsvg)

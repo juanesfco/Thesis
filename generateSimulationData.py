@@ -104,8 +104,8 @@ def main(imName, dim, pmin, pmax, qmin, qmax, R, imtype, path = 'Data/Simulation
 
   # Generate and save all signals
 
-  for p in range(pmin,pmax): # p within [0,1,2,3]
-      for q in range(qmin,qmax): # q within [0,1,2,3]
+  for p in range(pmin,pmax+1): # p within [0,1,2,3]
+      for q in range(qmin,qmax+1): # q within [0,1,2,3]
           for r in range(R): # number of runs
               print('p:',p,' - q:',q,' - r:',r+1)
               df_BOLD = generateNoise(y,p,q)
