@@ -11,7 +11,7 @@ def createActivationCluster(array,i,j,k,size):
       for z in range(-r,r+1):
         if np.linalg.norm([x,y,z]) <= r:
           try:
-            array[i+x,j+y,k+z] = np.random.randint(2)
+            array[i+x,j+y,k+z] = int(np.random.randint(3)>0)
             #print('Activated voxel: ',i+x,', ',j+y,', ',k+z)
           except:
             pass

@@ -30,7 +30,7 @@ def generateNoise(Y,p,q):
   
   return(pd.DataFrame((np.array(Y_Noise)[:,:,0]).T))
 
-def main(imName, dim, pmin, pmax, qmin, qmax, R, path = 'Data/Simulations/'):
+def main(imName, dim, pmin, pmax, qmin, qmax, R, imtype, path = 'Data/Simulations/'):
   # Generate Simulated Experiment Events and Design Matrix
   rt = 2 # repetition time
   n = 100 # number of scans
@@ -53,17 +53,23 @@ def main(imName, dim, pmin, pmax, qmin, qmax, R, path = 'Data/Simulations/'):
   X = make_first_level_design_matrix(onset, events, drift_model=None)
 
   # Load Ball Image
-  fn_img = path + imName + '.png'
-  img_open = Image.open(fn_img)
-  img_resize = img_open.resize((dim,dim))
-  img = np.array(img_resize)
+  if imtype == 'png':
+    fn_img = path + imName + '.png'
+    img_open = Image.open(fn_img)
+    img_resize = img_open.resize((dim,dim))
+    img = np.array(img_resize)
 
-  img_activated = np.amax(img[:,:,0:3],axis=2)<128
-  img_mask = img[:,:,3]==255
-  img_final = np.logical_and(img_activated,img_mask).flatten()
-  
-  fn_ball = path + imName + '_' + str(dim) + '.npy'
-  np.save(fn_ball,img_final)
+    img_activated = np.amax(img[:,:,0:3],axis=2)<128
+    img_mask = img[:,:,3]==255
+    img_final = np.logical_and(img_activated,img_mask).flatten()
+    
+    fn_ball = path + imName + '_' + str(dim) + '.npy'
+    np.save(fn_ball,img_final)
+  elif imtype == 'npy':
+    fn_img = path + imName + '.npy'
+    img_final = np.load(fn_img).flatten()
+  else:
+    print('Image type not found')
 
   # Create Coefficients Array
 
@@ -108,4 +114,4 @@ def main(imName, dim, pmin, pmax, qmin, qmax, R, path = 'Data/Simulations/'):
   print('BOLD with Noise Saved')
 
 if __name__ == "__main__":
-    main(sys.argv[1],int(sys.argv[2]),int(sys.argv[3]),int(sys.argv[4]),int(sys.argv[5]),int(sys.argv[6]),int(sys.argv[7]),sys.argv[8])
+    main(sys.argv[1],int(sys.argv[2]),int(sys.argv[3]),int(sys.argv[4]),int(sys.argv[5]),int(sys.argv[6]),int(sys.argv[7]),sys.argv[8],sys.argv[9])
