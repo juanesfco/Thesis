@@ -2,18 +2,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 
-ri = 235/256
-gi = 235/256
-bi = 235/256
-ai = 128/256
-
-rf = 128/256
-gf = 0/256
-bf = 38/256
-af = 255/256
-
-ci = [ri,gi,bi,ai]
-cf = [rf,gf,bf,af]
+ci = np.array([235,235,235,128])/256
+cf = np.array([128,0,38,255])/256
 
 cmap = np.ones((192,4))
 

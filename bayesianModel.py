@@ -78,8 +78,8 @@ def main(pmin, pmax, qmin, qmax, R, par=0, path = 'Data/Simulations/'):
   fn_X = path + 'X.csv'
   X = pd.read_csv(fn_X)
   # For each P and Q
-  for p in range(pmin,pmax):
-    for q in range(qmin,qmax):
+  for p in range(pmin,pmax+1):
+    for q in range(qmin,qmax+1):
       # Run model and obtain probability
       pMaps_ar = []
       for r in range(R):
