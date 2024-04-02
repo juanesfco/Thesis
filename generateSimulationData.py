@@ -31,26 +31,28 @@ def generateNoise(Y,p,q):
   return(pd.DataFrame((np.array(Y_Noise)[:,:,0]).T))
 
 def main(imName, dim, pmin, pmax, qmin, qmax, R, imtype, path = 'Data/Simulations/'):
-  # Generate Simulated Experiment Events and Design Matrix
-  rt = 2 # repetition time
-  n = 100 # number of scans
-  onset = np.arange(n) * rt
-  duration = np.ones(100)*2
-  trial_type = np.ones(100)*np.nan
+  
+  if imtype != 'csv':
+    # Generate Simulated Experiment Events and Design Matrix
+    rt = 2 # repetition time
+    n = 100 # number of scans
+    onset = np.arange(n) * rt
+    duration = np.ones(100)*2
+    trial_type = np.ones(100)*np.nan
 
-  st = [random.randint(5,12)]
-  for i in range(3):
-    sti = st[i] + random.randint(18,25)
-    st.append(sti)
+    st = [random.randint(5,12)]
+    for i in range(3):
+      sti = st[i] + random.randint(18,25)
+      st.append(sti)
 
-  for s in st:
-    duration[s] = 10
-    trial_type[s] = 1
+    for s in st:
+      duration[s] = 10
+      trial_type[s] = 1
 
-  events = pd.DataFrame({'trial_type':trial_type, 'onset':onset, 'duration': duration})
-  events.replace(1,'st',inplace=True)
+    events = pd.DataFrame({'trial_type':trial_type, 'onset':onset, 'duration': duration})
+    events.replace(1,'st',inplace=True)
 
-  X = make_first_level_design_matrix(onset, events, drift_model=None)
+    X = make_first_level_design_matrix(onset, events, drift_model=None)
 
   # Load Ball Image
   if imtype == 'png':
@@ -65,42 +67,49 @@ def main(imName, dim, pmin, pmax, qmin, qmax, R, imtype, path = 'Data/Simulation
     
     fn_ball = path + imName + '_' + str(dim) + '.npy'
     np.save(fn_ball,img_final)
+  elif imtype == 'csv':
+    fn_img = path + imName + '.csv'
+    bold = pd.read_csv(fn_img)
+    y = []
+    for c in bold.columns:
+      y.append(bold[c].values[np.newaxis].T)
   elif imtype == 'npy':
     fn_img = path + imName + '.npy'
     img_final = np.load(fn_img).flatten()
   else:
     print('Image type not found')
 
-  # Create Coefficients Array
+  if imtype != 'csv':
+    # Create Coefficients Array
 
-  V = len(img_final)
-  Betas = []
-  for p in img_final:
-    if p:
-      B = np.array([[75],[100]]) # Can change
-    else:
-      B = np.array([[0],[100]])
+    V = len(img_final)
+    Betas = []
+    for p in img_final:
+      if p:
+        B = np.array([[75],[100]]) # Can change
+      else:
+        B = np.array([[0],[100]])
 
-    Betas.append(B)
+      Betas.append(B)
 
-  # BOLD Signal without Noise
+    # BOLD Signal without Noise
 
-  y = []
-  for b in Betas:
-    y.append(X.values@b)
+    y = []
+    for b in Betas:
+      y.append(X.values@b)
 
-  # Save Design Matrix and BOLD without Noise
+    # Save Design Matrix and BOLD without Noise
 
-  fn_X = path + 'X.csv'
-  X.to_csv(fn_X,index=False)
+    fn_X = path + 'X.csv'
+    X.to_csv(fn_X,index=False)
 
-  print('X saved')
+    print('X saved')
 
-  BOLDs = pd.DataFrame((np.array(y)[:,:,0]).T)
-  fn_BOLD = path + 'BOLD.csv'
-  BOLDs.to_csv(fn_BOLD,index=False)
+    BOLDs = pd.DataFrame((np.array(y)[:,:,0]).T)
+    fn_BOLD = path + 'BOLD.csv'
+    BOLDs.to_csv(fn_BOLD,index=False)
 
-  print('BOLD saved')
+    print('BOLD saved')
 
   # Generate and save all signals
 
