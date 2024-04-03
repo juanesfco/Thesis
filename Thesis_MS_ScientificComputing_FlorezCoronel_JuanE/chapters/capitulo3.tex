@@ -1,64 +1,145 @@
-\chapter{Methodology}  
+\chapter{Methodology}
 
-\section{Bayesian Model}
+\section{Time-Series Model}
 
-In this section, we delve into a comprehensive understanding of the Bayesian model's implementation. To begin, we explore the fundamental elements that serve as the foundation for our analysis: the events matrix and the Blood Oxygen Level Dependent (BOLD) data. These are the core ingredients that provide insights into brain activation patterns during an fMRI experiment. Furthermore, we delve into the practical application of image masking. And finally, we will unravel the implementation of the Bayesian model.
+A time series analysis for each voxel of the image will allow temporal fluctuations in \gls{bold} signals to be captured. By tracking changes in \gls{bold} signals over time, the objective is to investigate dynamic patterns of brain activity, allowing for the identification of regions that respond to specific stimuli or tasks. Analyzing time series data at the voxel level provides valuable information into the temporal dynamics of neural processes, enabling a deep understanding of the brain's architecture.
 
-\subsection{Design Matrix ($X$)}
+Let $\bm{y}_i$ be a vector of the response variable of the $ith$ voxel, and $\bm{X}$ be the design matrix of the study containing the expected \gls{bold} and orthogonal drift components to take account of the low-frequency effects during the reading. With $\bm{\beta}_i$ being the vector of coefficients associated with the stimulus, we will have $\bm{y}_i \sim N ( \bm{X} \bm{\beta}_i, \bm{\Sigma})$. Note that $\bm{\Sigma}$ can have a \gls{arma} structure. However, if we let $\bm{\Sigma}=\sigma^2 \bm{I}$, the independent model is obtained: 
 
-To convert events matrix from an fMRI experiment into a design matrix using Nilearn, one should first import the necessary libraries, including Nilearn, and load the events data into a DataFrame. With Nilearn's  \texttt{make\_first\_level\_design\_matrix} function, a design matrix can be created by specifying event onsets, durations, the repetition time (TR) of the fMRI data, and other parameters like drift modeling and the hemodynamic response function (HRF) model. This design matrix reflects the temporal relationship between events and the fMRI data. Then, the design matrix can be visualized to inspect how the events are modeled in relation to the fMRI data. Finally, this design matrix can serve as a crucial regressor in various fMRI analyses, enabling researchers to investigate neural activity patterns, perform statistical tests, and gain valuable insights from the fMRI experiment. Figure \ref{fig:c3_DesignMatrix} presents an example of a design matrix generated for an fMRI experiment.
-
-\begin{figure}[htbp!]
-\centering
-\includegraphics[width=0.7\textwidth]{images/DesignMatrix.png}
-\caption{Design Matrix Example}
-\label{fig:c3_DesignMatrix}
-\end{figure}
-
-\subsection{Time Series ($\bm{y}$)}
-
-Converting the 4D BOLD data from an fMRI experiment into voxel time series is a crucial step in neuroimaging analysis. To achieve this, one must first load the 4D data, which represents a sequence of 3D brain scans collected over time. By specifying the coordinates of a voxel within the 4D dataset, researchers can extract the time series data, typically using neuroimaging libraries like Nilearn or nibabel in Python. This extracted time series provides a dynamic record of neural activity for the chosen voxel. Figure \ref{fig:c3_TimeSeries} presents an example of a time series for a certain voxel of an fMRI experiment.
-
-\begin{figure}[htbp!]
-\centering
-\includegraphics[width=0.7\textwidth]{images/TimeSeries.png}
-\caption{Voxel Time Series Example}
-\label{fig:c3_TimeSeries}
-\end{figure}
-
-\subsection{Image Masking}
-
-Masking fMRI data using Nilearn is a crucial preprocessing step in neuroimaging analysis. To begin, the fMRI data is loaded, and a region of interest (ROI) is defined using a mask image that specifies the brain areas to be analyzed. Nilearn provides a helpful function, \texttt{nilearn.masking.compute\_epi\_mask}, to create a mask automatically based on intensity thresholds from the fMRI data. This mask is then applied to the fMRI data using \texttt{nilearn.masking.apply\_mask}, resulting in a masked dataset. The masked data retains only the information within the specified ROI, allowing for focused and more precise analyses of brain activity in the defined region. This process is instrumental in narrowing down the scope of the analysis to specific brain areas or volumes of interest, facilitating more accurate and targeted neuroimaging investigations. Figure \ref{fig:c3_Mask} presents an example of the results of a masking process in an fMRI data.
-
-\begin{figure}[htbp!]
-\centering
-\includegraphics[width=0.7\textwidth]{images/Mask.png}
-\caption{Masking Results Example}
-\label{fig:c3_Mask}
-\end{figure}
-
-\subsection{Implementation}
-
-In the implementation osf the model, frequency probability played a pivotal role in understanding the activation patterns within fMRI data. For each experimental session, a design matrix $X$ was meticulously crafted to capture the dynamics of stimuli presentation, while the time series $\bm{y}$ was acquired for every voxel in the image. The crux of this approach lay in the per-voxel analysis, where 1000 samples of the regression coefficients $\bm{\beta}$ were stochastically generated. These samples were drawn from the conditional posterior distribution in Equation \ref{eq:conditionalPosterior}, a critical component of the model. Subsequently, for each specific stimulus, an essential insight was gained through the calculation of the probability that a particular voxel's coefficient $\bm{\beta}_i$ exceeded zero, indicating the activation of that voxel in response to the given stimulus $i$. This comprehensive analysis, driven by frequency probability, allowed for a nuanced exploration of voxel-specific responses to distinct stimuli, unraveling the intricate dynamics of neural activity within the fMRI dataset.
-
-\section{Adaptive Smoothing and Thresholding (AST) Algorithm}
-
-\section{Adaptive Smoothing Algorithm}
-
-Given probabilistic mapping (PM) $\bm{x} \sim TN(\mu,\sigma^2,0,1)$, we estimate $\mu$ and $\sigma$ by maximizing the following log-likelihood function, see Appendix %\ref{AppendixB} for derivation.
-\begin{equation} \label{eq:tn_llf}
-l(\bm{x};\mu,\sigma^2) = -n \log \left( \Phi(1;\mu,\sigma^2) - \Phi(0;\mu,\sigma^2) \right)-\frac{n}{2} \log \left( 2\pi \sigma^2 \right) - \frac{\sum_{i=1}^n (x_i-\mu)^2}{2\sigma^2}
+\begin{equation}
+\bm{y}_i|\bm{\beta}_i, \sigma, \bm{X} \sim N \left(\bm{X} \bm{\beta}_i,\sigma^2 \bm{I}\right).
 \end{equation}
 
-Starting with $\bm{x} \sim TN(\mu,\sigma^2,0,1)$ obtained as explained in Section $3.2$, we propose the algorithm:
+% Change pi to N in the prior?
+From here, the procedure is presented in \cite{gelman2013bayesian} explains that to obtain the posterior distribution of the coefficients associated with the stimulus, $\bm{\beta}_i$. We will use a noninformative prior distribution that is uniform on $(\bm{\beta}_i,\log \sigma)$:
+
+\begin{equation}
+\pi \left( \bm{\beta}_i, \sigma \right) \propto \sigma^{-2}.
+\end{equation}
+
+Now, let us denote the sampling distribution by $f(\bm{y}_i,\sigma|\bm{\beta}_i)$, then the joint density of $\bm{y}_i$, $\sigma$ and $\bm{\beta}_i$ is given by:
+
+\begin{equation}
+f(\bm{y}_i,\bm{\beta}_i,\sigma) = f(\bm{y}_i,\sigma|\bm{\beta}_i) \pi (\bm{\beta}_i)
+\end{equation}
+
+The marginal distribution of $\bm{y}_i$ is then given by:
+
+\begin{equation}
+m(\bm{y}_i) = \iint f(\bm{y}_i,\sigma|\bm{\beta}_i) \pi (\bm{\beta}_i) d\bm{\beta}_i d\sigma
+\end{equation}
+
+To obtain the posterior distribution of $\bm{\beta}_i$, we calculate the conditional distribution using the Bayes' Rule:
+
+\begin{equation}
+\pi \left( \bm{\beta}_i| \sigma, \bm{y}_i \right) = \frac{f(\bm{y}_i,\bm{\beta}_i,\sigma)}{m(\bm{y}_i)} = \frac{ f(\bm{y}_i|\sigma, \bm{\beta}_i) \pi (\bm{\beta}_i,\sigma)}{\iint f(\bm{y}_i,\sigma|\bm{\beta}_i) \pi (\bm{\beta}_i) d\bm{\beta}_i d\sigma}
+\end{equation}
+
+Given these results and using the ordinary least squares solution to a linear model $\bm{\hat{\beta}}_i = \left( \bm{X}^T\bm{X} \right)^{-1}\bm{X}^T \bm{y}_i$. The conditional posterior of $\bm{\beta}_i$, given $\sigma$ is then:
+
+\begin{equation}
+\pi \left( \bm{\beta}_i|\sigma ,\bm{y}_i \right) \sim N\left( \bm{\hat{\beta}}_i, \left( \bm{X}^T\bm{X} \right)^{-1} \sigma^2 \right).
+\end{equation}
+
+An estimation of $\sigma^2$ is then needed. Note that the marginal posterior of $\sigma^2$ can be obtained by factoring the joint posterior distribution of $\bm{\beta}_i$ and $\sigma^2$ as:
+
+\begin{equation}
+\pi (\sigma^2|\bm{y}_i) = \frac{\pi \left( \bm{\beta}_i,\sigma^2 |\bm{y}_i \right)}{\pi \left( \bm{\beta}_i|\sigma^2 ,\bm{y}_i \right)}.
+\end{equation}
+
+This results in:
+
+\begin{equation}
+\pi (\sigma^2|\bm{y}_i) \sim Inv- \chi^2(n-k,s^2).
+\end{equation}
+
+Where $n$ is the sample size and $k$ is the number of parameters in the data, and:
+
+\begin{equation}
+s^2 = \frac{1}{n-k} \left( \bm{y}_i - \bm{X}\bm{\hat{\beta}}_i \right)^T \left( \bm{y}_i - \bm{X}\bm{\hat{\beta}}_i \right)
+\end{equation}
+
+Finally, for each voxel, $i$, in the region of interest of our study, calculate the posterior probability that the coefficient associated with the stimulus, $t$, is not zero, which is roughly estimated using $P(\bm{\beta}_{i,t} > 0 | \bm{y}_i, \bm{X})$.
+
+Let $\bm{\mathbb{P}} = \left\{ P(\bm{\beta}_{i,t} > 0 ) \right\}_{i=[1,v]}$ represent a \gls{ppm}, where $v$ is the number of voxels in a \gls{fmri} experiment. Our goal now is to calculate a threshold and find activated regions using $\bm{\mathbb{P}}$, for which we propose the \gls{bfast} algorithm.
+
+\section{\gls{bfast} Algorithm}
+
+\subsection{\gls{tn} Distribution}
+
+All the entries of $\bm{\mathbb{P}}$ are probabilities ranging between 0 and 1. Hence, we will study $\bm{\mathbb{P}}$ as a \gls{tn} Distribution in the interval $[0,1]$, i.e.:
+
+\begin{equation}
+\bm{\mathbb{P}} \sim TN\left( \mu_{\bm{\mathbb{P}}}, \sigma^2_{\bm{\mathbb{P}}}, 0,1 \right)
+\end{equation}
+
+The mean $\mu_{\bm{\mathbb{P}}}$ and the variance $\sigma^2_{\bm{\mathbb{P}}}$ can be regarded as a perturbation of the mean $\overline{\mu}$ and variance $\overline{\sigma}^2$ of the parent normal distribution, respectively. Its values can be determined by referencing the normal \gls{pdf} $\phi$ and \gls{cdf} $\Phi$. As presented in \cite{johnson1995continuous}:
+
+With:
+
+\begin{equation}
+\alpha = \frac{-\overline{\mu}}{\overline{\sigma}}; \quad \beta = \frac{1-\overline{\mu}}{\overline{\sigma}}
+\label{eq:alpha_beta}
+\end{equation}
+
+We have:
+
+\begin{equation} \label{eq:mu_P}
+\mu_{\bm{\mathbb{P}}} = \overline{\mu} - \overline{\sigma} \cdot \frac{\phi(0,1;\beta)-\phi(0,1;\alpha)}{\Phi(0,1;\beta)-\Phi(0,1;\alpha)}
+\end{equation}
+
+And:
+
+\begin{equation} \label{eq:sigma_P}
+\sigma^2_{\bm{\mathbb{P}}} = \overline{\sigma}^2 \cdot \left( 1 - \frac{\beta \phi(0,1;\beta)- \alpha \phi(0,1;\alpha)}{\Phi(0,1;\beta)-\Phi(0,1;\alpha)} - \left( \frac{\phi(0,1;\beta)-\phi(0,1;\alpha)}{\Phi(0,1;\beta)-\Phi(0,1;\alpha)} \right)^2 \right)
+\end{equation}
+
+\subsection{\gls{evt}}
+
+To find the threshold probability value that separates active and inactive voxels, an extreme value distribution for the \gls{tn} distribution is used \cite{burkardt2014truncated, nadarajah2004beta}. From Theorem 10.5.2 of \cite{david2004order}, it is deduced that a \gls{tn} distribution is in the domain of maximal attraction of a Gumbel distribution ($G$), See Appendix \ref{ap:theoremVer}.
+
+Hence, we can say that $\exists a_v>0$ and $b_v$ and a nondegenerate \gls{cdf} $G$ such that $TN^v(a_vx+b_v) \rightarrow G(x)$ at all continuity points of $G$. We can choose:
+
+\begin{equation}
+a_v = \left[ v\psi(b_v) \right]^{-1}; \quad b_v = \Psi^{-1}(1-1/v).
+\label{eq:av_bv}
+\end{equation}
+
+Typically, $\psi$ and $\Psi$ are used as the \gls{pdf} and \gls{cdf} of the \gls{tn}, respectively.
+
+\subsection{Gaussian Kernel Smoothing}
+
+The \gls{bfast} algorithm also uses Gaussian Smoothing, a spatial filtering technique commonly used in image and signal processing, to enhance images by reducing noise and preserving essential features \cite{garg2016quality}. This method applies a Gaussian kernel, characterized by its bell-shaped curve, to each pixel in an image or \gls{ppm} in this case. The kernel serves as a weighted averaging filter where the central pixel or element has the highest weight while the surrounding pixels or elements contribute with decreasing weights as their distance from the center increases. The mathematical basis of Gaussian Smoothing lies in convolution, where the kernel is convolved with the input data, blurring the image or signal. The smoothing degree depends on the Gaussian kernel's standard deviation, $\sigma_s$. A larger standard deviation results in more significant smoothing, and a more minor standard deviation results in less smoothing.
+
+\subsection{Definition of the \gls{ji}}
+
+A version of the \gls{ji} is also used in the \gls{bfast} algorithm. We define the \gls{ji}, $J(\bm{A},\bm{B})$, as a similarity index between images $A$ and $B$, and its computed as a quotient:
+
+\begin{equation}
+J(\bm{A},\bm{B}) = \frac{|\bm{A} \cap \bm{B}|}{|\bm{A} \cup \bm{B}|}
+\end{equation}
+
+\subsection{\gls{bfast} Pseudocode}
+
+The proposed algorithm called \gls{bfast} can be described as follows:
 
 \begin{enumerate}
-\item \textit{Initial Setup.} Assume that all the voxels are inactive, in other terms, $\zeta_i \equiv 0 \; \forall i$, where $\zeta_i$ is the activation status for the $i$th voxel. Set $\zeta_i^{(0)} \equiv \zeta_i $, $\bm{x}^{(0)} = \bm{x} $, and $n_0 = n$, where $n_k$ denotes the number of voxels for which $\zeta_i^{(k)} = 0$.
-\item \textit{Iterative Steps.} For $k=1,2,\dots,$ iterate as follows:
+\item \textbf{\textit{Initial Setup.}} Start with a \gls{ppm} $\bm{\mathbb{P}^{(0)}} = \bm{\mathbb{P}}$. Assume that all voxels are inactive, i.e., $\zeta_i \equiv 0 \forall i$, where $\zeta_i$ is 1 when voxel $i$ is activated and 0 otherwise. Set $\zeta_i^{(0)} \equiv \zeta_i$ and $v_0 = v$, where $v_k$ denotes the number of voxels for which $\zeta_i^{(k)} = 0$.
+\item \textbf{\textit{Iterative Steps,}} For $k=1,2,\dots,$ iterate as follows:
 \begin{enumerate}
-\item Maximize Equation \ref{eq:tn_llf} given $\bm{x}^{(k-1)}$ to obtain $\mu^{(k)}$ and $\sigma^{(k)}$. Smooth $\bm{x}^{(k-1)}$ with $\mu^{(k)}$ and $\sigma^{(k)}$ to get $\bm{x}^{(k)}$.
-\item Get $a_n=\left[n\psi(b_n)\right]^{-1}$ and $b_n=\Psi^{-1}(1-\frac{1}{n})$ to obtain: $$\eta_k = a_{n_{k-1}}i_{\alpha} + b_{n_{k-1}}$$
-where $i_{\alpha}$ is the upper-tail $\alpha$-values for the Gumbel distribution. Now, set $\zeta_i^{(k)} = 1$ if $\zeta_i^{(k-1)} = 0$ and the $i$th coordinate of $\bm{x}^{(k)}$ exceeds $\eta_k$. Let $n_k=\sum_{i=1}^n \zeta_i^{(k)}$.
+\item \textit{Smoothing}. Smooth $\bm{\mathbb{P}^{(k-1)}}$ using a Gaussian Kernel to obtain $\bm{\mathbb{P}^{(k)}}$. Let $\sigma_s$ increase with $k$.
+\item \textit{Thresholding.} This consists of three steps:
+\begin{enumerate}
+\item Calculate $\mu_{\bm{\mathbb{P}^{(k-1)}}}$ and $\sigma^2_{\bm{\mathbb{P}^{(k-1)}}}$ to estimate $\mathbb{P}^{(k-1)}$ as a \gls{tn}. Use Equations \ref{eq:mu_P} and \ref{eq:sigma_P} with $\overline{\mu}$ and $\overline{\sigma}^2$ being the mean and variance of $\mathbb{P}^{(k-1)}$.
+\item Calculate $a_v$ and $b_v$. Use Equations \ref{eq:av_bv}, with $\psi$ and $\Psi$ as the \gls{pdf} and \gls{cdf} of $TN\left( \mu_{\bm{\mathbb{P}}}, \sigma^2_{\bm{\mathbb{P}}}, 0,1 \right)$, respectively.
+\item Calculate the probability threshold, $\eta=a_v\iota_{0.01}+b_v$, with $\iota_{0.01}$ be the upper-tail $0.01$-value of the standard Gumbel Distribution.
 \end{enumerate}
-\item \textit{Termination.} ...
+\item \textit{Activation}: Set $\zeta_i^{(k)} = 1$ if $\zeta_i^{(k-1)} = 0$ and the value of the $i$th voxel of $\mathbb{P}^{(k)}$ is greater than $\eta$. Finally, calculate $v_k=\sum_{i=1}^v\zeta_i^{(k)}$.
+\end{enumerate}
+\item \textbf{\textit{Termination.}}
+\begin{enumerate}
+\item Declare no activation and terminate if $\bm{\zeta}^{(1)} \equiv 0$.
+\item If $J(\bm{\zeta}^{(k)},\bm{\zeta}^{(k-1)}) \geq J(\bm{\zeta}^{(k+1)},\bm{\zeta}^{(k)})$, the algorithm terminates and the final activation map is $\bm{\zeta}^{(k)}$.
+\item The maximum number of iterations is set to $k=10$.
+\end{enumerate}
 \end{enumerate}

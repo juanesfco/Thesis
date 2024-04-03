@@ -1,18 +1,4 @@
+\chapter{\gls{3d} True Maps Generation}
+\label{ap:3dMapsGen}
 
-\chapter{TN LLF Derivation}
-\label{AppendixB}
-
-Given the PDF and CDF for Normal distribution given in Equations \ref{eq:Normal_PDF} and \ref{eq:Normal_CDF}, and also the PDF for the Truncated Normal distribution given in Equation \ref{eq:TNormal_PDF}, we calculate the log-likelihood function for $\bm{x}$ given $\bm{x} \sim TN(\mu,\sigma^2,0,1)$ and $0<x_i \in \bm{x} <1$ for $0\leq i \leq n$.
-
-First, we calculate the likelihood function, which is defined as:
-\begin{align} \label{eq:TN_lf}
-L(\bm{x} ; \mu, \sigma^2) = & \prod _{i=1}^n \psi (x_i;\mu,\sigma^2) \notag \\
-= & \frac{\prod _{i=1}^n \phi (x_i;\mu,\sigma^2)}{\left( \Phi(1;\mu,\sigma^2) - \Phi(0;\mu,\sigma^2) \right)^n} \\
-= & \left( \Phi(1;\mu,\sigma^2) - \Phi(0;\mu,\sigma^2) \right)^{-n} \left( \frac{1}{\sigma \sqrt{2 \pi}}\right)^n e^{\frac{-1}{2\sigma^2}\sum_{i=1}^n (x_i-\mu)^2} \notag
-\end{align}
-
-And then, the log-likelihood:
-\begin{align} \label{eq:TN_llfA}
-l(\bm{x} ; \mu, \sigma^2) =& \log \left[ L(\bm{x} ; \mu, \sigma^2) \right] \notag \\
-=& -n \log \left( \Phi(1;\mu,\sigma^2) - \Phi(0;\mu,\sigma^2) \right)-\frac{n}{2} \log \left( 2\pi \sigma^2 \right) - \frac{\sum_{i=1}^n (x_i-\mu)^2}{2\sigma^2}
-\end{align}
+The procedure 

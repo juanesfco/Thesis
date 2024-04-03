@@ -1,48 +1,36 @@
-\contentsline {section}{ABSTRACT}{ii}{}%
-\contentsline {section}{RESUMEN}{iii}{}%
-\contentsline {section}{ACKNOWLEDGMENTS}{iv}{}%
-\contentsline {chapter}{List of Tables}{ix}{}%
-\contentsline {chapter}{List of Figures}{x}{}%
-\contentsline {section}{ACRONYMS}{xii}{}%
-\contentsline {section}{SYMBOLS}{xiii}{}%
-\contentsline {chapter}{\numberline {1}INTRODUCTION}{1}{}%
-\contentsline {section}{\numberline {1.1}Motivation, Purpose, Justification}{1}{}%
-\contentsline {section}{\numberline {1.2}Objectives, Research Questions, Hypothesis}{2}{}%
-\contentsline {section}{\numberline {1.3}Chapter Summary}{4}{}%
-\contentsline {chapter}{\numberline {2}Literature Review}{7}{}%
-\contentsline {section}{\numberline {2.1}fMRI: Unlocking the Brain Activity Dynamics}{8}{}%
-\contentsline {subsection}{\numberline {2.1.1}MRI}{8}{}%
-\contentsline {subsection}{\numberline {2.1.2}Differences between MRI and fMRI}{9}{}%
-\contentsline {subsection}{\numberline {2.1.3}Voxels (Volumetric Pixels)}{9}{}%
-\contentsline {subsection}{\numberline {2.1.4}BOLD Contrast}{10}{}%
-\contentsline {subsection}{\numberline {2.1.5}Image Masking in fMRI}{10}{}%
-\contentsline {subsection}{\numberline {2.1.6}Time Series Analysis}{11}{}%
-\contentsline {subsection}{\numberline {2.1.7}fMRI Metrics (SNR, CNR, and JI)}{12}{}%
-\contentsline {section}{\numberline {2.2}Bayesian Statistics: Illuminating Inference with Probabilistic Insight}{13}{}%
-\contentsline {subsection}{\numberline {2.2.1}General Description}{14}{}%
-\contentsline {subsection}{\numberline {2.2.2}Difference with Frequentist Statistics}{15}{}%
-\contentsline {subsection}{\numberline {2.2.3}Prior Selection}{15}{}%
-\contentsline {subsection}{\numberline {2.2.4}Bayes' Rule}{16}{}%
-\contentsline {subsection}{\numberline {2.2.5}Posterior Distribution Calculation}{17}{}%
-\contentsline {section}{\numberline {2.3}Limiting Distribution of the Extreme: Unveiling the Asymptotic Behavior}{19}{}%
-\contentsline {subsection}{\numberline {2.3.1}Truncated Normal Distribution}{19}{}%
-\contentsline {subsection}{\numberline {2.3.2}Domain of Maximal Attraction}{20}{}%
-\contentsline {subsection}{\numberline {2.3.3}Gumbel Distribution}{22}{}%
-\contentsline {section}{\numberline {2.4}Gaussian Smoothing: Unveiling the Power of Spatial Filtering}{22}{}%
-\contentsline {subsection}{\numberline {2.4.1}Method Description}{23}{}%
-\contentsline {subsection}{\numberline {2.4.2}Implications of Implementation}{24}{}%
-\contentsline {section}{\numberline {2.5}Research Contribution: Advancing Analytical Techniques}{25}{}%
-\contentsline {subsection}{\numberline {2.5.1}Bayesian Model as Compared to Frequentist Approach}{26}{}%
-\contentsline {subsection}{\numberline {2.5.2}Thresholding and Smoothing Algorithm}{26}{}%
-\contentsline {chapter}{\numberline {3}Methodology}{27}{}%
-\contentsline {section}{\numberline {3.1}Bayesian Model}{27}{}%
-\contentsline {subsection}{\numberline {3.1.1}Design Matrix ($X$)}{27}{}%
-\contentsline {subsection}{\numberline {3.1.2}Time Series ($\bm {y}$)}{28}{}%
-\contentsline {subsection}{\numberline {3.1.3}Image Masking}{29}{}%
-\contentsline {subsection}{\numberline {3.1.4}Implementation}{30}{}%
-\contentsline {section}{\numberline {3.2}Adaptive Smoothing and Thresholding (AST) Algorithm}{31}{}%
-\contentsline {section}{\numberline {3.3}Adaptive Smoothing Algorithm}{31}{}%
-\contentsline {chapter}{\numberline {4}Results}{33}{}%
-\contentsline {chapter}{\numberline {5}Conclusions}{34}{}%
-\contentsline {chapter}{APPENDICES}{35}{}%
-\contentsline {chapter}{References}{36}{}%
+\contentsline {section}{ABSTRACT}{ii}{section*.1}%
+\contentsline {section}{RESUMEN}{iii}{section*.2}%
+\contentsline {section}{ACKNOWLEDGMENTS}{iv}{section*.3}%
+\contentsline {section}{ACRONYMS}{viii}{chapter*.4}%
+\contentsline {chapter}{\numberline {1}INTRODUCTION}{1}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Motivation and Justification}{1}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Objectives}{2}{section.1.2}%
+\contentsline {section}{\numberline {1.3}Chapter Summary}{3}{section.1.3}%
+\contentsline {chapter}{\numberline {2}Literature Review}{5}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Introduction to \gls {fmri}}{5}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Analysis of \gls {fmri} Data - Time Series, Activation Detection and Final Image}{7}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Bayesian Analysis}{9}{section.2.3}%
+\contentsline {section}{\numberline {2.4}Relevant Distributions}{9}{section.2.4}%
+\contentsline {chapter}{\numberline {3}Methodology}{11}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Time-Series Model}{11}{section.3.1}%
+\contentsline {section}{\numberline {3.2}\gls {bfast} Algorithm}{13}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}\gls {tn} Distribution}{13}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}\gls {evt}}{14}{subsection.3.2.2}%
+\contentsline {subsection}{\numberline {3.2.3}Gaussian Kernel Smoothing}{15}{subsection.3.2.3}%
+\contentsline {subsection}{\numberline {3.2.4}Definition of the \gls {ji}}{15}{subsection.3.2.4}%
+\contentsline {subsection}{\numberline {3.2.5}\gls {bfast} Pseudocode}{15}{subsection.3.2.5}%
+\contentsline {chapter}{\numberline {4}Experimental Simulation}{17}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Generation of the Simulated Framework}{17}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}Selection of True Maps}{17}{subsection.4.1.1}%
+\contentsline {subsection}{\numberline {4.1.2}Creation of Design Matrix}{18}{subsection.4.1.2}%
+\contentsline {subsection}{\numberline {4.1.3}Computation of \gls {bold}}{19}{subsection.4.1.3}%
+\contentsline {chapter}{\numberline {5}Performance Evaluation Results}{21}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Noise in Simulated Experiments}{21}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Example of the Procedure}{25}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Performance Metrics}{25}{section.5.3}%
+\contentsline {chapter}{\numberline {6}\gls {bfast} in a Real Dataset}{27}{chapter.6}%
+\contentsline {chapter}{\numberline {7}Conclusions}{28}{chapter.7}%
+\contentsline {chapter}{APPENDICES}{29}{appendix*.14}%
+\contentsline {chapter}{\numberline {A}Domain of Maximal Attraction Verification}{30}{appendix.A}%
+\contentsline {chapter}{\numberline {B}\gls {3d} True Maps Generation}{33}{appendix.B}%
+\contentsline {chapter}{\numberline {C}Python Scripts}{34}{appendix.C}%

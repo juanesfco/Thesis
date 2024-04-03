@@ -1,54 +1,41 @@
+\chapter{INTRODUCTION}
 
+\section{Motivation and Justification}
 
-\chapter{INTRODUCTION}  
-\section{Motivation, Purpose, Justification}
+\gls{fmri} is a non-invasive neuroimaging technique that measures brain activity by detecting changes in blood flow \cite{buchbinder2016functional, logothetis2008we, christopher2008applications}. Several \gls{fmri} studies explore the brain regions involved in language processing, memory, and decision-making \cite{gaillard2003developmental,golby2005memory,heekeren2003fmri}. One of the primary objectives in \gls{fmri} is to identify the brain regions that are activated in response to specific stimuli or task \cite{orchard2003simultaneous, deneux2006using, ardekani1999activation}. This objective is challenging to approach in low-signal and small-data scenarios. These arise when studying high-level cognitive tasks or single-subject experiments, respectively. This process of identifying activation regions usually involves comparing the \gls{hrf} during the presentation of a stimulus or task to the \gls{hrf} during a resting state or control condition \cite{arthurs2002well, logothetis2004nature, lee2013resting}.
 
-%\noindent Hi! We encourage you to visit https://libguides.uprm.edu/writingclinics. The GWF Writing Clinics provide in-depth, useful information for preparing: abstracts, literature reviews, citations (Mendeley), academic writing, thesis outline, grammatically-sound writing, presentations (communication strategies in oral presentations and poster sessions) and visual design.  %Dummy text. Replace with your text.
-The field of computational statistics has gained significant importance in biological research, as traditional tools in the life sciences often prove insufficient in unraveling the intricate phenomena, particularly in understanding the complexities of the human brain \cite{de2013evolution}. This underscores the invaluable role of computation in addressing these challenges. With the human brain comprising millions of vessels and tissues facilitating constant blood flow, which acts as the medium for internal communication, distinct concentrations and flow patterns emerge in response to various phenomena \cite{willie2014integrative}. This study is driven by the aspiration to develop computational models capable of detecting subtle disparities in cerebral blood flow and establishing their correlation with external factors.
+% Change "compare" in the third sentence with "measure"/"meson."
+\gls{hrf} is a convolution of a discrete variable and some continuous function. This constant function mainly relates to the \gls{bold} response. To compare the \gls{bold}, researchers have used time-series analysis, statistical parametric mapping, multivariate pattern classification, Bayesian modeling, among other methods \cite{adrian2018complex, marchini2004comparing, mumford2012deconvolving, makni2008fully}. These methods are helpful in different situations, such as analyzing data points over time, processing spatially distributed processes, combining spatial and temporal patterns, and using probabilistic predictions. To some extent, these situations are partially present in some aspects of this research; hence, the methods will be helpful.
 
-The purpose of this research is to harness the power of Bayesian analysis to improve the detection of activation patterns in brain images. Conventional methods of analyzing neuroimaging data predominantly rely on frequentist statistics, which may overlook critical information and result in false positives or negatives \cite{friston1996detecting}. In contrast, Bayesian statistics provides a principled framework for incorporating prior knowledge, handling uncertainty, and accounting for complex dependencies \cite{penny2011statistical}. By embracing a Bayesian approach, our aim is to enhance the accuracy and reliability of activation detection in brain images, thereby deepening our understanding of the underlying neural processes.
+Researchers also used methods based in \gls{ast} for \gls{fmri} studies. In their studies, the problems addressed went from finding the extent and shape of the activation region to the identification of the more accurate smoothing technique and procedure \cite{tabelow2006analyzing, lindquist2010adaptive, strappini2017adaptive,almodovar2019fast}. The advantage of the \gls{ast} method as it has been used is the ability to estimate thresholds between contrast-based maps and reduce noise inherent to the \gls{fmri} experiments. This approach yields good results in accurately identifying activated regions in \gls{fmri} experiments. However, exploring different methods, such as a Bayesian approach, where probability maps are used instead, can result in more precisely identifying such activated regions.
 
-There are several justifications for employing Bayesian analysis in the detection of activation patterns in brain images. Firstly, Bayesian methods allow the integration of prior knowledge, such as anatomical and functional constraints, enabling a more informed analysis and interpretation \cite{poline1997combining}. Secondly, Bayesian statistics naturally accommodates uncertainty, allowing researchers to quantify and account for the inherent variability in the data \cite{mclntosh1994structural}. Thirdly, the ability of Bayesian models to capture complex dependencies within the brain data enhances the richness and depth of the analysis \cite{beckmann2003general}. By adopting Bayesian approaches, this research aims to advance neuroimaging analysis, enabling more robust findings, improved clinical diagnoses, and a deeper understanding of cognition, behavior, and neurological disorders.
+This study proposes a Bayesian approach using \gls{ast} methods for the activation detection problem in single-subject \gls{fmri}. As opposed to previous research where \gls{ast} for \gls{fmri} is used, in a Bayesian approach, the smoothing procedure will occur in the probability maps, resulting in a more understandable interpretation when finding activated regions. Although results might not be improved compared to a frequentist approach, it is relevant to explore the possible benefits of this kind of technique. 
 
-\section{Objectives, Research Questions, Hypothesis}
+\section{Objectives}
 
-\noindent Some of the key elements of this study are highlighted next:
 \begin{itemize}
-\item Investigate the blood flow dynamics in the human brain using advanced medical imaging techniques. This analysis will involve examining the intricate patterns and variations of blood flow within different regions of the brain.
-\item Explore the relationship between changes in blood flow and external stimuli. This objective aims to identify how specific stimuli or external factors influence the blood flow dynamics in the brain, potentially revealing insights into neural responses and cognitive processes.
-\item Develop an algorithm based on a Bayesian analysis to estimate the probability of brain region activation in response to a stimulus. This objective involves leveraging Bayesian principles to create a computational model that can accurately assess the likelihood of a particular brain region being activated when exposed to a given stimulus.
-\item Assess the performance and effectiveness of the Bayesian perspective in comparison to frequentist approaches in the constructed models. This objective focuses on evaluating and comparing the results obtained from the Bayesian-based algorithm with traditional frequentist methods, aiming to determine whether the Bayesian framework provides superior outcomes in detecting and predicting brain activation patterns.
+\item Perform Bayesian time-series analysis to obtain a posterior probability map of an \gls{fmri} image for a single-subject situation.
+\item Develop an \gls{ast} method that inputs the probability posterior map and finds the possible activated voxels.
+\item Study the proposed algorithm in different simulation frameworks. Study the results in terms of similarity, rate of false positives, and percent of activation.
+\item Finally, apply the algorithm to a real dataset.
 \end{itemize}
-	
-\noindent The study is divided in the following phases: 
-
-\begin{description}
-\item [Phase I:] \textbf{Data Visualization and Understanding.} In this phase, the focus will be on visualizing and understand the experimental data. The collected data will be thoroughly examined and understood to gain insights into its structure and characteristics.
-
-\item [Phase II:] \textbf{Bayesian Linear Model Estimation.} During this phase, the experimental data will be applied to a linear model. Bayesian inference techniques, specifically Bayes' rule, will be employed to estimate the coefficients of the linear model. By leveraging the power of Bayesian analysis, the estimation process will account for prior knowledge and uncertainty, leading to more robust and accurate coefficient estimates.
-
-\item [Phase III:] \textbf{Probabilistic Mapping using Frequency Probability.} In this phase, frequency probability methods will be utilized to generate probabilistic mappings for each of the estimated coefficients. These mappings will provide a quantitative understanding of the likelihood of different values for the coefficients, allowing for probabilistic analysis of the underlying relationships in the data.
-
-\item [Phase IV:] \textbf{Algorithm Development for Adaptive Smoothing and Region of \linebreak Activation Identification.} The objective of this phase is to develop an algorithm that incorporates adaptive smoothing techniques on the probabilistic mappings. By applying an optimal smoothing approach, the algorithm will enhance the accuracy and reliability of the mappings, enabling the identification of active regions in the brain. A probability threshold will be employed to determine significant activations, providing valuable insights into the regions associated with the observed phenomena.
-
-\end{description}
 
 \section{Chapter Summary}
 
-\noindent
-This thesis consists of 6 chapters which are briefly summarized below:
+This thesis consists of 7 chapters, which are briefly summarized below:
 \begin{description}
 \item [Chapter 1: Introduction.] 
-In this chapter, the research project is introduced, providing an overview of its objectives, significance, and scope. The motivation behind the study is discussed, highlighting the need for further investigation in the field. The chapter sets the foundation for the subsequent chapters by outlining the research questions and the overall structure of the thesis.
+This chapter introduces the research project and provides an overview of its objectives, significance, and scope. Topics such as \gls{fmri}, \gls{bold}, and \gls{ast} are briefly explained.
 \item [Chapter 2: Literature Review.]
-Chapter 2 presents a comprehensive review of the relevant literature pertaining to the study. Various theories, studies, and approaches related to the research topic are explored and critically analyzed. This chapter provides a theoretical framework and a basis for understanding the research problem, highlighting the existing gaps and areas where the current study adds value.
-\item [Chapter 3: Methodology and Experiments.]
-Chapter 3 delves into the methodology followed in the experiment. It details the research design, data collection techniques, and experimental procedures employed in the study. The chapter discusses the selection of participants, instrumentation, and any necessary ethical considerations. It provides a clear description of the methodology used, ensuring the replicability of the study.
-\item [Chapter 4: Simulated Experiments Analysis and Results.] 
-In Chapter 4, we \linebreak delve into the analysis of simulated data, where the ground truth is known, enabling a meticulous examination of the accuracy of our methods. This chapter presents the empirical findings in a systematic and well-structured manner, employing a suite of relevant statistical tools and effective visualization techniques. The results, being derived from simulated data with precisely defined parameters, offer a unique opportunity to scrutinize our analysis techniques and validate their performance. This chapter goes beyond mere presentation; it elucidates the findings' implications and insights within the context of our research objectives. By peering into the simulated data, we aim to uncover discernible patterns, relationships, and insights that are invaluable for both method validation and an in-depth understanding of our approach's capabilities.
-\item [Chapter 5: Real-World Data Analysis and Findings.]
-In Chapter 5, we transition from the controlled environment of simulated data to the complexities of real-world data analysis. Here, we present the empirical results obtained from actual cases, where the outcomes are naturally occurring and inherently intricate. The findings are meticulously presented in an organized and comprehensible manner, employing a judicious mix of statistical tools and visualization techniques. This chapter delves into the heart of our research objectives, offering a nuanced interpretation of the key findings within the real-world context. By analyzing real cases, we aim to reveal the intricate patterns, relationships, and insights that emerge from authentic, complex data, providing valuable contributions to the field.
-\item [Chapter 6: Conclusion and Future Work.]
-In Chapter 6, the study concludes by summarizing the main findings, discussing their implications, and drawing final conclusions. This chapter also reflects on the limitations of the study and identifies areas for improvement. Furthermore, it proposes potential avenues for future research, suggesting new ideas and directions that could build upon the current study. The chapter serves as a closing remark, providing a comprehensive synthesis of the research and emphasizing its contributions to the field.
+Chapter 2 presents a comprehensive review of the relevant literature on the study. In this chapter, \gls{fmri} studies, alongside statistical theory and models, are deeply discussed. The chapter highlights the existing gaps and areas where the current study adds value.
+\item [Chapter 3: Methodology.]
+In Chapter 3, the methodology used in our work is described. The chapter details the design and development of the models and algorithms proposed. The methodology is clearly described, ensuring the study's replicability.
+\item [Chapter 4: Experimental Simulation.] 
+Chapter 4 defines the creation and analysis of simulated data where the ground truth is known. The structure proposed for the simulation enables an evaluation of the accuracy of our methods. By using simulated data, we aim to validate and understand the capabilities of our approach.
+\item [Chapter 5: Performance Evaluation Results.]
+In Chapter 5, the proposed algorithm's results applied to experimental simulation data are presented. The chapter summarizes the evaluation of our work in different scenarios of signal magnitudes. The results presented in this chapter ensure that the results from the next chapter are accurate.
+\item [Chapter 6: \acrshort{bfast} in a Real Dataset]
+This chapter presents the results of the proposed algorithm in real datasets of \gls{fmri} experiments. The objective of this chapter is to show an example of the usage of our work. In the example experiment, the processing of beliefs and questions is taken as stimuli.
+\item [Chapter 7: Conclusion and Future Work.]
+In Chapter 7, the study concludes by summarizing the main findings and implications. This chapter also reflects on the study's limitations and identifies areas for improvement. The chapter serves as a closing remark, providing a comprehensive research summary and emphasizing its contributions to the field.
 \end{description}
-
