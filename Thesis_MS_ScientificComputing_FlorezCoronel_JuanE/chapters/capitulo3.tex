@@ -63,9 +63,9 @@ Finally, for each voxel, $i$, in the region of interest of our study, calculate 
 
 Let $\bm{\mathbb{P}} = \left\{ P(\bm{\beta}_{i,t} > 0 ) \right\}_{i=[1,v]}$ represent a \gls{ppm}, where $v$ is the number of voxels in a \gls{fmri} experiment. Our goal now is to calculate a threshold and find activated regions using $\bm{\mathbb{P}}$, for which we propose the \gls{bfast} algorithm.
 
-\section{\gls{bfast} Algorithm}
+\section{\texorpdfstring{\gls{bfast}}{BFAST} Algorithm}
 
-\subsection{\gls{tn} Distribution}
+\subsection{\texorpdfstring{\gls{tn}}{TN} Distribution}
 
 All the entries of $\bm{\mathbb{P}}$ are probabilities ranging between 0 and 1. Hence, we will study $\bm{\mathbb{P}}$ as a \gls{tn} Distribution in the interval $[0,1]$, i.e.:
 
@@ -94,7 +94,7 @@ And:
 \sigma^2_{\bm{\mathbb{P}}} = \overline{\sigma}^2 \cdot \left( 1 - \frac{\beta \phi(0,1;\beta)- \alpha \phi(0,1;\alpha)}{\Phi(0,1;\beta)-\Phi(0,1;\alpha)} - \left( \frac{\phi(0,1;\beta)-\phi(0,1;\alpha)}{\Phi(0,1;\beta)-\Phi(0,1;\alpha)} \right)^2 \right)
 \end{equation}
 
-\subsection{\gls{evt}}
+\subsection{\texorpdfstring{\gls{evt}}{EVT}}
 
 To find the threshold probability value that separates active and inactive voxels, an extreme value distribution for the \gls{tn} distribution is used \cite{burkardt2014truncated, nadarajah2004beta}. From Theorem 10.5.2 of \cite{david2004order}, it is deduced that a \gls{tn} distribution is in the domain of maximal attraction of a Gumbel distribution ($G$), See Appendix \ref{ap:theoremVer}.
 
@@ -111,7 +111,7 @@ Typically, $\psi$ and $\Psi$ are used as the \gls{pdf} and \gls{cdf} of the \gls
 
 The \gls{bfast} algorithm also uses Gaussian Smoothing, a spatial filtering technique commonly used in image and signal processing, to enhance images by reducing noise and preserving essential features \cite{garg2016quality}. This method applies a Gaussian kernel, characterized by its bell-shaped curve, to each pixel in an image or \gls{ppm} in this case. The kernel serves as a weighted averaging filter where the central pixel or element has the highest weight while the surrounding pixels or elements contribute with decreasing weights as their distance from the center increases. The mathematical basis of Gaussian Smoothing lies in convolution, where the kernel is convolved with the input data, blurring the image or signal. The smoothing degree depends on the Gaussian kernel's standard deviation, $\sigma_s$. A larger standard deviation results in more significant smoothing, and a more minor standard deviation results in less smoothing.
 
-\subsection{Definition of the \gls{ji}}
+\subsection{Definition of the \texorpdfstring{\gls{ji}}{JI}}
 
 A version of the \gls{ji} is also used in the \gls{bfast} algorithm. We define the \gls{ji}, $J(\bm{A},\bm{B})$, as a similarity index between images $A$ and $B$, and its computed as a quotient:
 
@@ -119,7 +119,7 @@ A version of the \gls{ji} is also used in the \gls{bfast} algorithm. We define t
 J(\bm{A},\bm{B}) = \frac{|\bm{A} \cap \bm{B}|}{|\bm{A} \cup \bm{B}|}
 \end{equation}
 
-\subsection{\gls{bfast} Pseudocode}
+\subsection{\texorpdfstring{\gls{bfast}}{BFAST} Pseudocode}
 
 The proposed algorithm called \gls{bfast} can be described as follows:
 
