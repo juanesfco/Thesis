@@ -13,13 +13,6 @@ In this section we are going to verify numerically the Theorem for the Truncated
 
 In Python:
 
-\begin{minted}{python}
-def nPDF(x,mu,sigma):
-  return((exp(-(x-mu)**2/(2*sigma**2))/(sigma*sqrt(2*pi))))
-def nCDF(x,mu,sigma):
-    return(integrate(nPDF(t,mu,sigma),(t,-oo,x)))
-\end{minted}
-
 Now, we define the truncated normal distribution in $(0,1)$, because we have a distribution of probabilities:
 
 \begin{equation} \label{eq:TNormal_PDF}
@@ -37,16 +30,6 @@ Now, we define the truncated normal distribution in $(0,1)$, because we have a d
 
 In Python:
 
-\begin{minted}{python}
-def PDF(x,mu,sigma):
-  return(Piecewise(
-  (0,(x<=0)),
-  (nPDF(x,mu,sigma)/(nCDF(1,mu,sigma)-nCDF(0,mu,sigma)),(x<1)),
-  (0,(x>=1))))
-def CDF(x,mu,sigma):
-  return(integrate(PDF(t,mu,sigma),(t,0,x)))
-\end{minted}
-
 Now, part $(c)$ of the theorem states that sufficient conditions for $\Psi$ to belong to $D(G_3)$, where $G_3$ is the Gumbel distribution are:
 
 \begin{itemize}
@@ -57,16 +40,6 @@ Now, part $(c)$ of the theorem states that sufficient conditions for $\Psi$ to b
 \end{itemize}
 
 Numerically, we take arbitrary values for $\mu$ and $\sigma$, then we substitute values for $x$ within our domain $(0,1)$ to obtain the following results.
-
-\begin{minted}{python}
-mu = 0.2
-sigma = 0.1
-X = np.linspace(0,1,50)
-Y = []
-for xx in X:
-  Y.append(diff(((1-CDF(x,mu,sigma))/PDF(x,mu,sigma)),x).subs(x,xx))
-plot(X,Y)
-\end{minted}
 
 \begin{figure}[htbp!]
 \centering

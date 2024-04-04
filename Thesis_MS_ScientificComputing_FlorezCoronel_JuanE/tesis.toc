@@ -1,7 +1,7 @@
 \contentsline {section}{ABSTRACT}{ii}{section*.1}%
 \contentsline {section}{RESUMEN}{iii}{section*.2}%
 \contentsline {section}{ACKNOWLEDGMENTS}{iv}{section*.3}%
-\contentsline {section}{ACRONYMS}{viii}{chapter*.4}%
+\contentsline {section}{ACRONYMS}{x}{chapter*.6}%
 \contentsline {chapter}{\numberline {1}INTRODUCTION}{1}{chapter.1}%
 \contentsline {section}{\numberline {1.1}Motivation and Justification}{1}{section.1.1}%
 \contentsline {section}{\numberline {1.2}Objectives}{2}{section.1.2}%
@@ -30,7 +30,8 @@
 \contentsline {section}{\numberline {5.3}Performance Metrics}{25}{section.5.3}%
 \contentsline {chapter}{\numberline {6}\gls {bfast} in a Real Dataset}{27}{chapter.6}%
 \contentsline {chapter}{\numberline {7}Conclusions}{28}{chapter.7}%
-\contentsline {chapter}{APPENDICES}{29}{appendix*.14}%
+\contentsline {chapter}{APPENDICES}{29}{appendix*.16}%
 \contentsline {chapter}{\numberline {A}Domain of Maximal Attraction Verification}{30}{appendix.A}%
 \contentsline {chapter}{\numberline {B}\gls {3d} True Maps Generation}{33}{appendix.B}%
 \contentsline {chapter}{\numberline {C}Python Scripts}{34}{appendix.C}%
+\contentsline {chapter}{References}{35}{appendix*.18}%
