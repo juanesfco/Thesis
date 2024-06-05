@@ -17,7 +17,8 @@
 \hypersetup{
 colorlinks=false,
 linktoc=all,
-linkcolor=black,
+linkcolor=blue,
+urlcolor=blue,
 }
 \usepackage{amsmath}
 \usepackage{bm}
@@ -31,7 +32,7 @@ linkcolor=black,
 \usepackage{lipsum}
 \usepackage{xcolor}
 \definecolor{lgray}{gray}{0.9}
-\usepackage{blindtext}
+%\usepackage{blindtext}
 \usepackage[nottoc]{tocbibind}
 \usepackage{pgfplots}
 \usepackage{pgfplotstable}
@@ -47,6 +48,35 @@ linkcolor=black,
 \usepackage{tablefootnote}
 
 \newcolumntype{x}[1]{>{\centering\arraybackslash}m{#1}}
+\def\arrvline{\hfil\kern\arraycolsep\vline\kern-\arraycolsep\hfilneg}
+
+\usepackage{listings}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\lstset{style=mystyle}
 
 %_____________________________________________________________
 

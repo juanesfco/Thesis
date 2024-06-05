@@ -11,8 +11,6 @@ In this section we are going to verify numerically the Theorem for the Truncated
 \Phi (x; \mu, \sigma^2) = \int_{-\infty} ^x \phi (t;\mu,\sigma^2) dt
 \end{equation}
 
-In Python:
-
 Now, we define the truncated normal distribution in $(0,1)$, because we have a distribution of probabilities:
 
 \begin{equation} \label{eq:TNormal_PDF}
@@ -28,8 +26,6 @@ Now, we define the truncated normal distribution in $(0,1)$, because we have a d
 \Psi (x; \mu, \sigma^2,0,1) = \int_{0} ^x \psi (t;\mu,\sigma^2,0,1) dt
 \end{equation}
 
-In Python:
-
 Now, part $(c)$ of the theorem states that sufficient conditions for $\Psi$ to belong to $D(G_3)$, where $G_3$ is the Gumbel distribution are:
 
 \begin{itemize}
@@ -43,7 +39,7 @@ Numerically, we take arbitrary values for $\mu$ and $\sigma$, then we substitute
 
 \begin{figure}[htbp!]
 \centering
-\includegraphics[width=0.7\textwidth]{images/th1052_gumbel_verify.png}
+\includegraphics{images/th1052_gumbel_verify.png}
 \label{fig:gumbel_verify}
 \end{figure}
 

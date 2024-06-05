@@ -5,10 +5,9 @@
 A time series analysis for each voxel of the image will allow temporal fluctuations in \gls{bold} signals to be captured. By tracking changes in \gls{bold} signals over time, the objective is to investigate dynamic patterns of brain activity, allowing for the identification of regions that respond to specific stimuli or tasks. Analyzing time series data at the voxel level provides valuable information into the temporal dynamics of neural processes, enabling a deep understanding of the brain's architecture.
 
 Let $\bm{y}_i$ be a vector of the response variable of the $ith$ voxel, and $\bm{X}$ be the design matrix of the study containing the expected \gls{bold} and orthogonal drift components to take account of the low-frequency effects during the reading. With $\bm{\beta}_i$ being the vector of coefficients associated with the stimulus, we will have $\bm{y}_i \sim N ( \bm{X} \bm{\beta}_i, \bm{\Sigma})$. Note that $\bm{\Sigma}$ can have a \gls{arma} structure. However, if we let $\bm{\Sigma}=\sigma^2 \bm{I}$, the independent model is obtained: 
-
-\begin{equation}
+$
 \bm{y}_i|\bm{\beta}_i, \sigma, \bm{X} \sim N \left(\bm{X} \bm{\beta}_i,\sigma^2 \bm{I}\right).
-\end{equation}
+$
 
 % Change pi to N in the prior?
 From here, the procedure is presented in \cite{gelman2013bayesian} explains that to obtain the posterior distribution of the coefficients associated with the stimulus, $\bm{\beta}_i$. We will use a noninformative prior distribution that is uniform on $(\bm{\beta}_i,\log \sigma)$:
@@ -18,128 +17,165 @@ From here, the procedure is presented in \cite{gelman2013bayesian} explains that
 \end{equation}
 
 Now, let us denote the sampling distribution by $f(\bm{y}_i,\sigma|\bm{\beta}_i)$, then the joint density of $\bm{y}_i$, $\sigma$ and $\bm{\beta}_i$ is given by:
-
-\begin{equation}
-f(\bm{y}_i,\bm{\beta}_i,\sigma) = f(\bm{y}_i,\sigma|\bm{\beta}_i) \pi (\bm{\beta}_i)
-\end{equation}
-
+$
+f(\bm{y}_i,\bm{\beta}_i,\sigma) = f(\bm{y}_i,\sigma|\bm{\beta}_i) \pi (\bm{\beta}_i, \sigma).
+$
 The marginal distribution of $\bm{y}_i$ is then given by:
-
-\begin{equation}
-m(\bm{y}_i) = \iint f(\bm{y}_i,\sigma|\bm{\beta}_i) \pi (\bm{\beta}_i) d\bm{\beta}_i d\sigma
-\end{equation}
-
+$
+m(\bm{y}_i) = \iint f(\bm{y}_i,\sigma|\bm{\beta}_i) \pi (\bm{\beta}_i, \sigma) d\bm{\beta}_i d\sigma
+$
 To obtain the posterior distribution of $\bm{\beta}_i$, we calculate the conditional distribution using the Bayes' Rule:
-
-\begin{equation}
+$
 \pi \left( \bm{\beta}_i| \sigma, \bm{y}_i \right) = \frac{f(\bm{y}_i,\bm{\beta}_i,\sigma)}{m(\bm{y}_i)} = \frac{ f(\bm{y}_i|\sigma, \bm{\beta}_i) \pi (\bm{\beta}_i,\sigma)}{\iint f(\bm{y}_i,\sigma|\bm{\beta}_i) \pi (\bm{\beta}_i) d\bm{\beta}_i d\sigma}
-\end{equation}
+$ 
 
-Given these results and using the ordinary least squares solution to a linear model $\bm{\hat{\beta}}_i = \left( \bm{X}^T\bm{X} \right)^{-1}\bm{X}^T \bm{y}_i$. The conditional posterior of $\bm{\beta}_i$, given $\sigma$ is then:
-
+The conditional posterior of $\bm{\beta}_i$, given $\sigma$ is then:
 \begin{equation}
-\pi \left( \bm{\beta}_i|\sigma ,\bm{y}_i \right) \sim N\left( \bm{\hat{\beta}}_i, \left( \bm{X}^T\bm{X} \right)^{-1} \sigma^2 \right).
+\pi \left( \bm{\beta}_i|\sigma ,\bm{y}_i \right) 
+\sim N\left( \bm{\hat{\beta}}_i, 
+\left( \bm{X}^T\bm{X} \right)^{-1} \sigma^2 \right);
 \end{equation}
+where $\bm{\hat{\beta}}_i = \left( \bm{X}^T\bm{X} \right)^{-1}\bm{X}^T \bm{y}_i$.
 
-An estimation of $\sigma^2$ is then needed. Note that the marginal posterior of $\sigma^2$ can be obtained by factoring the joint posterior distribution of $\bm{\beta}_i$ and $\sigma^2$ as:
-
-\begin{equation}
-\pi (\sigma^2|\bm{y}_i) = \frac{\pi \left( \bm{\beta}_i,\sigma^2 |\bm{y}_i \right)}{\pi \left( \bm{\beta}_i|\sigma^2 ,\bm{y}_i \right)}.
-\end{equation}
-
-This results in:
-
-\begin{equation}
+The marginal posterior of $\sigma^2$ can be obtained by factoring the 
+joint posterior distribution of $\bm{\beta}_i$ and $\sigma^2$ as:
+$
+\pi (\sigma^2|\bm{y}_i) = \frac{\pi \left( \bm{\beta}_i,\sigma^2 
+|\bm{y}_i \right)}{\pi \left( \bm{\beta}_i|\sigma^2 ,\bm{y}_i \right)};
+$
+$
 \pi (\sigma^2|\bm{y}_i) \sim Inv- \chi^2(n-k,s^2).
-\end{equation}
+$
+Where $n$ is the sample size and $k$ is the number of parameters in the model, and:
+$
+s^2 = \frac{1}{n-k} \left( \bm{y}_i - \bm{X}\bm{\hat{\beta}}_i \right)^T
+ \left( \bm{y}_i - \bm{X}\bm{\hat{\beta}}_i \right).
+$
 
-Where $n$ is the sample size and $k$ is the number of parameters in the data, and:
+Finally, for each voxel, $i$, in the region of interest of our study, 
+we calculate the posterior probability that the coefficient associated with the 
+stimulus, $t$, is not zero, which is 
+$P(\bm{\beta}_{i,t} > 0 | \bm{y}_i, \bm{X})$.
 
-\begin{equation}
-s^2 = \frac{1}{n-k} \left( \bm{y}_i - \bm{X}\bm{\hat{\beta}}_i \right)^T \left( \bm{y}_i - \bm{X}\bm{\hat{\beta}}_i \right)
-\end{equation}
-
-Finally, for each voxel, $i$, in the region of interest of our study, calculate the posterior probability that the coefficient associated with the stimulus, $t$, is not zero, which is roughly estimated using $P(\bm{\beta}_{i,t} > 0 | \bm{y}_i, \bm{X})$.
-
-Let $\bm{\mathbb{P}} = \left\{ P(\bm{\beta}_{i,t} > 0 ) \right\}_{i=[1,v]}$ represent a \gls{ppm}, where $v$ is the number of voxels in a \gls{fmri} experiment. Our goal now is to calculate a threshold and find activated regions using $\bm{\mathbb{P}}$, for which we propose the \gls{bfast} algorithm.
+Let $\bm{\mathbb{P}} = \left\{ P(\bm{\beta}_{i,t} > 0 | \bm{y}_i, \bm{X}) \right\}_{i=[1,v]}$ 
+represent a \gls{ppm}, where $v$ is the number of voxels in the region of interest of a \gls{fmri} experiment. 
+Our goal now is to calculate a threshold and find activated regions using $\bm{\mathbb{P}}$, 
+for which we propose the \gls{bfast} algorithm.
 
 \section{\texorpdfstring{\gls{bfast}}{BFAST} Algorithm}
 
-\subsection{\texorpdfstring{\gls{tn}}{TN} Distribution}
+\subsection{\texorpdfstring{\acrlong{tn}}{Truncated Nornal} Distribution}
 
-All the entries of $\bm{\mathbb{P}}$ are probabilities ranging between 0 and 1. Hence, we will study $\bm{\mathbb{P}}$ as a \gls{tn} Distribution in the interval $[0,1]$, i.e.:
-
-\begin{equation}
-\bm{\mathbb{P}} \sim TN\left( \mu_{\bm{\mathbb{P}}}, \sigma^2_{\bm{\mathbb{P}}}, 0,1 \right)
-\end{equation}
-
-The mean $\mu_{\bm{\mathbb{P}}}$ and the variance $\sigma^2_{\bm{\mathbb{P}}}$ can be regarded as a perturbation of the mean $\overline{\mu}$ and variance $\overline{\sigma}^2$ of the parent normal distribution, respectively. Its values can be determined by referencing the normal \gls{pdf} $\phi$ and \gls{cdf} $\Phi$. As presented in \cite{johnson1995continuous}:
+All the entries of $\bm{\mathbb{P}}$ are probabilities, hence, we will assume the
+$\bm{\mathbb{P}}$ as a \gls{tn} Distribution in the interval $[0,1]$, i.e.:
+$
+\bm{\mathbb{P}} \sim TN\left( \mu_{\bm{\mathbb{P}}}, \sigma^2_{\bm{\mathbb{P}}}, 0,1 \right).
+$
+The mean $\mu_{\bm{\mathbb{P}}}$ and the variance $\sigma^2_{\bm{\mathbb{P}}}$ can be 
+regarded as a perturbation of the mean $m$ and variance $\tau^2$ of the parent normal 
+distribution, respectively. Its values can be determined by referencing the normal
+ \gls{pdf} $\phi$ and \gls{cdf} $\Phi$. For a \gls{tn} between 0 and 1, we calculate the mean and variance as
+presented in \cite{johnson1995continuous}:
 
 With:
 
 \begin{equation}
-\alpha = \frac{-\overline{\mu}}{\overline{\sigma}}; \quad \beta = \frac{1-\overline{\mu}}{\overline{\sigma}}
+\alpha = \frac{-m}{\tau}; \quad \beta = \frac{1-m}{\tau}
 \label{eq:alpha_beta}
 \end{equation}
 
 We have:
 
 \begin{equation} \label{eq:mu_P}
-\mu_{\bm{\mathbb{P}}} = \overline{\mu} - \overline{\sigma} \cdot \frac{\phi(0,1;\beta)-\phi(0,1;\alpha)}{\Phi(0,1;\beta)-\Phi(0,1;\alpha)}
+\mu_{\bm{\mathbb{P}}} = m - \tau \cdot \frac{\phi(0,1;\beta)-\phi(0,1;\alpha)}{\Phi(0,1;\beta)-\Phi(0,1;\alpha)}
 \end{equation}
 
 And:
 
 \begin{equation} \label{eq:sigma_P}
-\sigma^2_{\bm{\mathbb{P}}} = \overline{\sigma}^2 \cdot \left( 1 - \frac{\beta \phi(0,1;\beta)- \alpha \phi(0,1;\alpha)}{\Phi(0,1;\beta)-\Phi(0,1;\alpha)} - \left( \frac{\phi(0,1;\beta)-\phi(0,1;\alpha)}{\Phi(0,1;\beta)-\Phi(0,1;\alpha)} \right)^2 \right)
+\sigma^2_{\bm{\mathbb{P}}} = \tau^2 \cdot \left( 1 - \frac{\beta \phi(0,1;\beta)- \alpha \phi(0,1;\alpha)}{\Phi(0,1;\beta)-\Phi(0,1;\alpha)} - \left( \frac{\phi(0,1;\beta)-\phi(0,1;\alpha)}{\Phi(0,1;\beta)-\Phi(0,1;\alpha)} \right)^2 \right)
 \end{equation}
 
-\subsection{\texorpdfstring{\gls{evt}}{EVT}}
+\subsection{\texorpdfstring{\acrlong{evt}}{Extreme Value Theory}}
 
-To find the threshold probability value that separates active and inactive voxels, an extreme value distribution for the \gls{tn} distribution is used \cite{burkardt2014truncated, nadarajah2004beta}. From Theorem 10.5.2 of \cite{david2004order}, it is deduced that a \gls{tn} distribution is in the domain of maximal attraction of a Gumbel distribution ($G$), See Appendix \ref{ap:theoremVer}.
+To find the threshold probability value that helps us find active and inactive voxels, 
+we will consider the extreme value distribution for the \gls{tn} distribution is 
+used \cite{burkardt2014truncated, nadarajah2004beta}. From Theorem 
+10.5.2 of \cite{david2004order}, it is deduced that a \gls{tn} distribution is 
+in the domain of maximal attraction of a Gumbel distribution ($G$) (Appendix \ref{ap:theoremVer}).
 
-Hence, we can say that $\exists a_v>0$ and $b_v$ and a nondegenerate \gls{cdf} $G$ such that $TN^v(a_vx+b_v) \rightarrow G(x)$ at all continuity points of $G$. We can choose:
+Hence, we can say that $\exists a_v>0$ and $b_v$ and a nondegenerate \gls{cdf} $G$ 
+such that $TN^v(a_vx+b_v) \rightarrow G(x)$ at all continuity points of $G$. We can choose:
 
 \begin{equation}
 a_v = \left[ v\psi(b_v) \right]^{-1}; \quad b_v = \Psi^{-1}(1-1/v).
 \label{eq:av_bv}
 \end{equation}
 
-Typically, $\psi$ and $\Psi$ are used as the \gls{pdf} and \gls{cdf} of the \gls{tn}, respectively.
+Typically, $\psi$ and $\Psi$ are used as the \gls{pdf} and \gls{cdf} of the \gls{tn}, 
+respectively.
 
 \subsection{Gaussian Kernel Smoothing}
 
-The \gls{bfast} algorithm also uses Gaussian Smoothing, a spatial filtering technique commonly used in image and signal processing, to enhance images by reducing noise and preserving essential features \cite{garg2016quality}. This method applies a Gaussian kernel, characterized by its bell-shaped curve, to each pixel in an image or \gls{ppm} in this case. The kernel serves as a weighted averaging filter where the central pixel or element has the highest weight while the surrounding pixels or elements contribute with decreasing weights as their distance from the center increases. The mathematical basis of Gaussian Smoothing lies in convolution, where the kernel is convolved with the input data, blurring the image or signal. The smoothing degree depends on the Gaussian kernel's standard deviation, $\sigma_s$. A larger standard deviation results in more significant smoothing, and a more minor standard deviation results in less smoothing.
+The \gls{bfast} algorithm also uses Gaussian Smoothing, a spatial filtering technique 
+commonly used in image and signal processing, to enhance images by reducing noise and 
+preserving essential features \cite{garg2016quality}. This method applies a Gaussian kernel, 
+characterized by its bell-shaped curve, to each pixel in an image or \gls{ppm} in this case. 
+The kernel serves as a weighted averaging filter where the central pixel or element has the 
+highest weight while the surrounding pixels or elements contribute with decreasing weights as 
+their distance from the center increases. The mathematical basis of Gaussian Smoothing lies 
+in convolution, where the kernel is convolved with the input data, blurring the image or 
+signal. The smoothing degree depends on the Gaussian kernel's standard deviation, $\sigma_s$. 
+A larger standard deviation results in more significant smoothing, and a more minor standard 
+deviation results in less smoothing.
 
-\subsection{Definition of the \texorpdfstring{\gls{ji}}{JI}}
+\subsection{\texorpdfstring{\acrlong{ji}}{Jaccard Index}}
 
-A version of the \gls{ji} is also used in the \gls{bfast} algorithm. We define the \gls{ji}, $J(\bm{A},\bm{B})$, as a similarity index between images $A$ and $B$, and its computed as a quotient:
+A version of the \gls{ji} is also used in the \gls{bfast} algorithm. We define 
+the \gls{ji}, $J(\bm{A},\bm{B})$, as a similarity index between images $\bm{A}$ and $\bm{B}$, 
+and its computed as a quotient:
 
 \begin{equation}
 J(\bm{A},\bm{B}) = \frac{|\bm{A} \cap \bm{B}|}{|\bm{A} \cup \bm{B}|}
 \end{equation}
 
-\subsection{\texorpdfstring{\gls{bfast}}{BFAST} Pseudocode}
+\subsection{\texorpdfstring{\gls{bfast}}{BFAST} Algorithm}
 
 The proposed algorithm called \gls{bfast} can be described as follows:
 
 \begin{enumerate}
-\item \textbf{\textit{Initial Setup.}} Start with a \gls{ppm} $\bm{\mathbb{P}^{(0)}} = \bm{\mathbb{P}}$. Assume that all voxels are inactive, i.e., $\zeta_i \equiv 0 \forall i$, where $\zeta_i$ is 1 when voxel $i$ is activated and 0 otherwise. Set $\zeta_i^{(0)} \equiv \zeta_i$ and $v_0 = v$, where $v_k$ denotes the number of voxels for which $\zeta_i^{(k)} = 0$.
+\item \textbf{\textit{Initial Setup.}} Start with a \gls{ppm} 
+$\bm{\mathbb{P}^{(0)}} = \bm{\mathbb{P}}$. Assume that all voxels are inactive, 
+i.e., $\zeta_i \equiv 0 \forall i$, where $\zeta_i$ is 1 when voxel $i$ is 
+activated and 0 otherwise. Set $\zeta_i^{(0)} \equiv \zeta_i$ and $v_0 = v$, where $v_k$ 
+denotes the number of voxels for which $\zeta_i^{(k)} = 0$.
 \item \textbf{\textit{Iterative Steps,}} For $k=1,2,\dots,$ iterate as follows:
 \begin{enumerate}
-\item \textit{Smoothing}. Smooth $\bm{\mathbb{P}^{(k-1)}}$ using a Gaussian Kernel to obtain $\bm{\mathbb{P}^{(k)}}$. Let $\sigma_s$ increase with $k$.
+\item \textit{Smoothing}. Smooth $\bm{\mathbb{P}^{(k-1)}}$ using a Gaussian Kernel 
+to obtain $\bm{\mathbb{P}^{(k)}}$. Let $\sigma_s = 0.65 + 100(k-1)$. Note that the smoothing
+is symmetric in all directions, i.e., $\sigma_s$ is constant in $x,y$ and $z$.
 \item \textit{Thresholding.} This consists of three steps:
 \begin{enumerate}
-\item Calculate $\mu_{\bm{\mathbb{P}^{(k-1)}}}$ and $\sigma^2_{\bm{\mathbb{P}^{(k-1)}}}$ to estimate $\mathbb{P}^{(k-1)}$ as a \gls{tn}. Use Equations \ref{eq:mu_P} and \ref{eq:sigma_P} with $\overline{\mu}$ and $\overline{\sigma}^2$ being the mean and variance of $\mathbb{P}^{(k-1)}$.
-\item Calculate $a_v$ and $b_v$. Use Equations \ref{eq:av_bv}, with $\psi$ and $\Psi$ as the \gls{pdf} and \gls{cdf} of $TN\left( \mu_{\bm{\mathbb{P}}}, \sigma^2_{\bm{\mathbb{P}}}, 0,1 \right)$, respectively.
-\item Calculate the probability threshold, $\eta=a_v\iota_{0.01}+b_v$, with $\iota_{0.01}$ be the upper-tail $0.01$-value of the standard Gumbel Distribution.
+\item Calculate $\mu_{\bm{\mathbb{P}^{(k-1)}}}$ and $\sigma^2_{\bm{\mathbb{P}^{(k-1)}}}$ to 
+estimate $\mathbb{P}^{(k-1)}$ as a \gls{tn}. Use Equations (\ref{eq:mu_P}) and 
+(\ref{eq:sigma_P}) with $m$ and $\tau^2$ being the 
+mean and variance of $\mathbb{P}^{(k-1)}$.
+\item Calculate $a_v$ and $b_v$. Use Equations (\ref{eq:av_bv}), with $\psi$ and $\Psi$ as
+ the \gls{pdf} and \gls{cdf} of 
+ $TN\left( \mu_{\bm{\mathbb{P}^{(k-1)}}}, \sigma^2_{\bm{\mathbb{P}^{(k-1)}}}, 0,1 \right)$, 
+ respectively.
+\item Calculate the probability threshold, 
+$\eta=a_v\iota_{0.01}+b_v$, with $\iota_{0.01}$ be the upper-tail 
+$0.01$-value of the standard Gumbel Distribution.
 \end{enumerate}
-\item \textit{Activation}: Set $\zeta_i^{(k)} = 1$ if $\zeta_i^{(k-1)} = 0$ and the value of the $i$th voxel of $\mathbb{P}^{(k)}$ is greater than $\eta$. Finally, calculate $v_k=\sum_{i=1}^v\zeta_i^{(k)}$.
+\item \textit{Activation}: Set $\zeta_i^{(k)} = 1$ if $\zeta_i^{(k-1)} = 0$ and the value 
+of the $i$th voxel of $\mathbb{P}^{(k)}$ is greater than $\eta$. Finally, 
+calculate $v_k=\sum_{i=1}^v\left(1-\zeta_i^{(k)}\right)$.
 \end{enumerate}
 \item \textbf{\textit{Termination.}}
 \begin{enumerate}
 \item Declare no activation and terminate if $\bm{\zeta}^{(1)} \equiv 0$.
 \item If $J(\bm{\zeta}^{(k)},\bm{\zeta}^{(k-1)}) \geq J(\bm{\zeta}^{(k+1)},\bm{\zeta}^{(k)})$, the algorithm terminates and the final activation map is $\bm{\zeta}^{(k)}$.
-\item The maximum number of iterations is set to $k=10$.
+\item The maximum number of iterations is by default $k=10$.
 \end{enumerate}
 \end{enumerate}

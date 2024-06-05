@@ -2,21 +2,65 @@
 
 \section{Motivation and Justification}
 
-\gls{fmri} is a non-invasive neuroimaging technique that measures brain activity by detecting changes in blood flow \cite{buchbinder2016functional, logothetis2008we, christopher2008applications}. Several \gls{fmri} studies explore the brain regions involved in language processing, memory, and decision-making \cite{gaillard2003developmental,golby2005memory,heekeren2003fmri}. One of the primary objectives in \gls{fmri} is to identify the brain regions that are activated in response to specific stimuli or task \cite{orchard2003simultaneous, deneux2006using, ardekani1999activation}. This objective is challenging to approach in low-signal and small-data scenarios. These arise when studying high-level cognitive tasks or single-subject experiments, respectively. This process of identifying activation regions usually involves comparing the \gls{hrf} during the presentation of a stimulus or task to the \gls{hrf} during a resting state or control condition \cite{arthurs2002well, logothetis2004nature, lee2013resting}.
+\gls{fmri} is a non-invasive neuroimaging technique that measures brain 
+activity by detecting changes in blood flow \cite{buchbinder2016functional, 
+logothetis2008we, christopher2008applications}. Several \gls{fmri} studies 
+explore the brain regions involved in language processing, memory, and 
+decision-making \cite{gaillard2003developmental,golby2005memory,heekeren2003fmri}. 
+One of the primary objectives in \gls{fmri} is to identify the brain regions 
+that are activated in response to specific stimuli or 
+task \cite{orchard2003simultaneous, deneux2006using, ardekani1999activation}. 
+This objective is challenging to approach in low-signal and small-data scenarios. 
+These arise when studying high-level cognitive tasks or single-subject 
+experiments, respectively. This process of identifying activation regions 
+usually involves comparing the \gls{hrf} during the presentation of a 
+stimulus or task to the \gls{hrf} during a resting state or control 
+condition \cite{arthurs2002well, logothetis2004nature, lee2013resting}.
 
 % Change "compare" in the third sentence with "measure"/"meson."
-\gls{hrf} is a convolution of a discrete variable and some continuous function. This constant function mainly relates to the \gls{bold} response. To compare the \gls{bold}, researchers have used time-series analysis, statistical parametric mapping, multivariate pattern classification, Bayesian modeling, among other methods \cite{adrian2018complex, marchini2004comparing, mumford2012deconvolving, makni2008fully}. These methods are helpful in different situations, such as analyzing data points over time, processing spatially distributed processes, combining spatial and temporal patterns, and using probabilistic predictions. To some extent, these situations are partially present in some aspects of this research; hence, the methods will be helpful.
+\gls{hrf} is a convolution of a discrete variable and some continuous 
+function. This constant function mainly relates to the \gls{bold} response. 
+To compare the \gls{bold}, researchers have used time-series analysis, 
+statistical parametric mapping, multivariate pattern classification, 
+Bayesian modeling, among other methods 
+\cite{adrian2018complex, marchini2004comparing, mumford2012deconvolving, makni2008fully}. 
+These methods are helpful in different situations, such as analyzing data 
+points over time, processing spatially distributed processes, combining 
+spatial and temporal patterns, and using probabilistic predictions. 
+To some extent, these situations are partially present in some aspects 
+of this research; hence, the methods will be helpful.
 
-Researchers also used methods based in \gls{ast} for \gls{fmri} studies. In their studies, the problems addressed went from finding the extent and shape of the activation region to the identification of the more accurate smoothing technique and procedure \cite{tabelow2006analyzing, lindquist2010adaptive, strappini2017adaptive,almodovar2019fast}. The advantage of the \gls{ast} method as it has been used is the ability to estimate thresholds between contrast-based maps and reduce noise inherent to the \gls{fmri} experiments. This approach yields good results in accurately identifying activated regions in \gls{fmri} experiments. However, exploring different methods, such as a Bayesian approach, where probability maps are used instead, can result in more precisely identifying such activated regions.
+Researchers also used methods based in \gls{ast} for \gls{fmri} studies. 
+In their studies, the problems addressed went from finding the extent and 
+shape of the activation region to the identification of the more accurate 
+smoothing technique and procedure 
+\cite{tabelow2006analyzing, lindquist2010adaptive, strappini2017adaptive,almodovar2019fast}. 
+The advantage of the \gls{ast} method as it has been used is the ability to 
+estimate thresholds between contrast-based maps and reduce noise inherent to 
+the \gls{fmri} experiments. This approach yields good results in accurately 
+identifying activated regions in \gls{fmri} experiments. However, exploring 
+different methods, such as a Bayesian approach, where probability maps are 
+used instead, can result in more precisely identifying such activated regions.
 
-This study proposes a Bayesian approach using \gls{ast} methods for the activation detection problem in single-subject \gls{fmri}. As opposed to previous research where \gls{ast} for \gls{fmri} is used, in a Bayesian approach, the smoothing procedure will occur in the probability maps, resulting in a more understandable interpretation when finding activated regions. Although results might not be improved compared to a frequentist approach, it is relevant to explore the possible benefits of this kind of technique. 
+This study proposes a Bayesian approach using \gls{ast} methods for the 
+activation detection problem in single-subject \gls{fmri}. As opposed to 
+previous research where \gls{ast} for \gls{fmri} is used, in a Bayesian 
+approach, the smoothing procedure will occur in the probability maps, 
+resulting in a more understandable interpretation when finding activated 
+regions. Although results might not be improved compared to a frequentist 
+approach, it is relevant to explore the possible benefits of this kind of 
+technique. 
 
 \section{Objectives}
 
 \begin{itemize}
-\item Perform Bayesian time-series analysis to obtain a posterior probability map of an \gls{fmri} image for a single-subject situation.
-\item Develop an \gls{ast} method that inputs the probability posterior map and finds the possible activated voxels.
-\item Study the proposed algorithm in different simulation frameworks. Study the results in terms of similarity, rate of false positives, and percent of activation.
+\item Perform Bayesian time-series analysis to obtain a posterior probability 
+map of an \gls{fmri} image for a single-subject situation.
+\item Develop an \gls{ast} method that inputs the probability posterior map 
+and finds the possible activated voxels.
+\item Study the proposed algorithm in different simulation frameworks. Study 
+the results in terms of similarity, rate of false positives, and percent of 
+activation.
 \item Finally, apply the algorithm to a real dataset.
 \end{itemize}
 

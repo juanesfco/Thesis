@@ -1,4 +1,73 @@
 \chapter{\texorpdfstring{\gls{3d}}{3D} True Maps Generation}
 \label{ap:3dMapsGen}
 
-The procedure 
+The procedure used to generate the \gls{3d} maps is explained below
+with the following Python functions. First, Listing 
+\ref{lst:createImage} presents the \textit{createImage} function,
+which is the final step that creates the map, the inputs 
+of this function are the dimensions of the map. This function creates a
+\gls{3d} space and randomly selects some coordinates inside this space.
+Now, note that this function requires the usage of the 
+\textit{createActivationCluster} function, shown in 
+Listing \ref{lst:createActivationCluster}. The objective of this second
+function is to generate activation clusters around the randomly selected
+coordinates. This clusters have a random shape within a fixed radious.
+Finally, we use the functions \textit{activateLoners} and \textit{surrAct} shown 
+in Listings \ref{lst:activateLoners} and \ref{lst:surrAct}, respectively. This 
+functions have the task to correct the shape of the previously generated clusters
+so they do not have unusual holes in them.
+
+\begin{lstlisting}[language=Python, caption=\textit{createImage} Function, label=lst:createImage]
+def createImage(dimX,dimY,dimZ):
+    p = (np.random.random((dimX,dimY))>0.99).astype(int)
+    base = np.zeros((dimX,dimY,dimZ))
+    s = p.shape
+    for i in range(s[0]):
+      for j in range(s[1]):
+        if p[i,j]:
+          k = np.random.randint(0,dimZ)
+          createActivationCluster(base,i,j,k,2*dimZ)
+    return(base)
+\end{lstlisting}
+
+\begin{lstlisting}[language=Python, caption=\textit{createActivationCluster} Function, label=lst:createActivationCluster]
+def createActivationCluster(array,i,j,k,size):
+    r = int(np.round(np.sqrt(size*3/4/np.pi)))
+    array[i,j,k] = 1
+    for x in range(-r,r+1):
+      for y in range(-r,r+1):
+        for z in range(-r,r+1):
+          if np.linalg.norm([x,y,z]) <= r:
+            try:
+              array[i+x,j+y,k+z] = int(np.random.randint(3)>0)
+            except:
+              pass
+    activateLoners(array)
+\end{lstlisting}
+
+\begin{lstlisting}[language=Python, caption=\textit{activateLoners} Function, label=lst:activateLoners]
+def activateLoners(array):
+    s = array.shape
+    for x in range(s[0]):
+      for y in range(s[1]):
+        for z in range(s[2]):
+          if array[x,y,z] == 0:
+            if surrAct(array,x,y,z):
+              array[x,y,z] = 1
+\end{lstlisting}
+
+\begin{lstlisting}[language=Python, caption=\textit{surrAct} Function, label=lst:surrAct]
+def surrAct(array,i,j,k):
+    s = 0
+    for x in [-1,1]:
+      for y in [-1,1]:
+        for z in [-1,1]:
+          try:
+            s += array[i+x,j+y,k+z]
+          except:
+            pass
+    if s >= 4:
+      return(True)
+    else:
+      return(False)
+\end{lstlisting}

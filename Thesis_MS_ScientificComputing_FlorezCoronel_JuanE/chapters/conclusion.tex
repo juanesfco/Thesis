@@ -1,1 +1,34 @@
-\chapter{Conclusions}  
+\chapter{Conclusions}
+
+In this thesis, we've introduced a new approach for detecting brain activity 
+in single subject \gls{fmri} data using adaptive smoothing and 
+thresholding alongside with some bayesian analysis. Our work has met its 
+main goals, providing valuable 
+insights and tools for the analysis of neuroimaging data.
+
+We started by performing a bayesian time-series analysis to create a 
+posterior probability map for single-subject \gls{fmri} images. This bayesian 
+approach handles the \gls{fmri} data in a very effective and structured manner 
+such that the resulting probability maps present a reliable image 
+of potential brain activations. Next, we developed an adaptive smoothing and 
+thresholding algorithm called \gls{bfast} to process these probability maps and 
+identify the active brain regions. By dynamically adjusting the probabilities 
+given their spatial distribution, our method improves the detection of true 
+activations while reducing noise. This adaptive approach ensures that the true 
+active voxels are detected at each step and errors due to noise is reduced, enhancing 
+the overall accuracy and reliability of the results.
+
+We tested our algorithm extensively through various simulation scenarios. 
+The results showed that our method performs well in terms of similarity 
+measures, false positive rates, and the percentage of detected activations. 
+These simulations demonstrated that our approach is effective, 
+especially in challenging conditions with low \gls{snr} values. Finally, we applied our algorithm to a real \gls{fmri} dataset, which confirmed 
+its practical utility. The real-world application showed that our method 
+can detect brain activations that align with established patterns 
+of brain activity. 
+
+In summary, this thesis has developed and validated a new bayesian adaptive 
+smoothing and thresholding method for detecting brain activity in single-subject 
+\gls{fmri} data. Our contributions include a bayesian analysis framework, 
+an adaptive processing method, and thorough testing through simulations and 
+real data. 
