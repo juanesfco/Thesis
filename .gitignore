@@ -11,3 +11,6 @@ Thesis_MS_ScientificComputing_FlorezCoronel_JuanE/
 !Thesis_MS_ScientificComputing_FlorezCoronel_JuanE/prelim/*.tex
 !Thesis_MS_ScientificComputing_FlorezCoronel_JuanE/images/
 !Thesis_MS_ScientificComputing_FlorezCoronel_JuanE/chapters/*.tex
+client_secrets.json
+credentials.json
+settings.yaml
