@@ -1,9 +1,0 @@
-\beamer@sectionintoc {1}{Introduction}{3}{0}{1}
-\beamer@subsectionintoc {1}{1}{The basic problem that we have studed}{4}{0}{1}
-\beamer@subsectionintoc {1}{2}{Previus Works}{8}{0}{1}
-\beamer@sectionintoc {2}{Conclusions}{9}{0}{2}
-\beamer@sectionintoc {3}{References}{10}{0}{3}
-\beamer@subsectionintoc {4}{1}{Previous work}{17}{0}{3}
-\beamer@sectionintoc {5}{Results / contribution}{23}{0}{4}
-\beamer@subsectionintoc {5}{1}{Main results}{24}{0}{4}
-\beamer@subsectionintoc {5}{2}{Subsection title}{26}{0}{4}
