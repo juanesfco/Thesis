@@ -1,0 +1,191 @@
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{naturalnames}{hyperref}
+
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+%\usepackage{babel}
+%\usepackage[utf8]{inputenc}
+
+%\usepackage{lmodern}
+%\usepackage{kmath,kerkis} 
+%\usepackage[default]{gfsneohellenic} 
+
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{layout}[22/06/2017 TeiPel Beamer Layout Package (English version)]
+
+\usepackage{xstring}
+\usepackage{calculator}
+
+\usepackage{color}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\usepackage{epstopdf}
+\usepackage{graphicx}
+\graphicspath{{./images/}}
+\usepackage[acronym]{glossaries}
+\makeglossaries
+
+\usepackage{cite}
+\renewcommand{\bibname}{References} % or other title eg. Bibliography
+\bibliographystyle{ieeetr} %styles: abbrv, acm, alpha, apalike, ieeetr, plain, siam, unsrt.
+
+%\edef\teilogoeps{teikal_logo.eps}
+\edef\teilogopng{UPR_Seal.png}
+
+\newcommand{\setTeipelLayout}[1]{
+	% choose Beamer theme
+		\usetheme{Antibes}
+		%\usetheme{Warsaw} %<-- well known blue theme
+		%\usetheme{default}\usecolortheme{beaver}%\useoutertheme{default}
+		%\usetheme{PaloAlto}
+		%\usetheme{Warsaw}
+		%\usetheme{Berlin}
+		%\usecolortheme{seahorse}
+		%\usecolortheme{rose}
+		%\usetheme{Berkeley}
+		%\usetheme{boxes}
+		%\usetheme{Bergen}
+		%\usetheme{CambridgeUS} 
+		%\usetheme{Copenhagen}
+		%\usetheme{Darmstadt}
+		%\usetheme{Dresden}
+		%\usetheme{Frankfurt}
+		%\usetheme{Goettingen} 
+		%\usetheme{Hannover}
+		%\usetheme{Ilmenau}
+		%\usetheme{JuanLesPins}
+		%\usetheme{Luebeck}
+		%\usetheme{Madrid}
+		%\usetheme{Malmoe}
+		%\usetheme{Marburg} 
+		%\usetheme{Montpellier}
+		%\usetheme{Pittsburgh}
+		%\usetheme{Rochester}
+		%\usetheme{Singapore} 
+		%\usetheme{Szeged}
+		%\usetheme{Boadilla}
+		%\usetheme{AnnArbor}
+    % Use new Logo (and colors)
+    \IfSubStr{#1}{newlogo}%
+    	{%
+        	\definecolor{teipel_red}{RGB}{27,28,32}
+            \edef\teilogoeps{teipel_new_logo.eps}
+			\edef\teilogopng{teipel_new_logo.eps}
+        }%
+        {%
+        	\definecolor{teipel_red}{RGB}{147,44,75}
+			\edef\teilogoeps{teikal_logo.eps}
+			\edef\teilogopng{UPR_Seal.png}            
+        }        
+	% set colors
+		
+		\setbeamercolor{alerted text}{fg=red}
+		\setbeamercolor{background canvas}{bg=teipel_red!0}
+		\setbeamercolor{block body alerted}{bg=white, fg=red}
+		\setbeamercolor{block body}{bg=orange!40}
+		\setbeamercolor{block body example}{fg=teipel_red!60!black, bg=gray!30}
+		\setbeamercolor{block title alerted}{fg=white, bg=red}
+		\setbeamercolor{block title}{bg=teipel_red}
+		\setbeamercolor{block title example}{bg=teipel_red!70!black,fg=white}
+		\setbeamercolor{fine separation line}{}
+		\setbeamercolor{frametitle}{fg=white}
+		\setbeamercolor{item projected}{fg=white}
+		\setbeamercolor{normal text}{bg=teipel_red!60,fg=teipel_red!60!black}
+		\setbeamercolor{palette sidebar primary}{use=normal text,fg=normal text.fg}
+		\setbeamercolor{palette sidebar quaternary}{use=structure,fg=structure.fg}
+		\setbeamercolor{palette sidebar secondary}{use=structure,fg=structure.fg}
+		\setbeamercolor{palette sidebar tertiary}{use=normal text,fg=normal text.fg}
+		\setbeamercolor{section in sidebar}{fg=brown}
+		\setbeamercolor{section in sidebar shaded}{fg=gray}
+		\setbeamercolor{section in toc}{fg=normal text.fg, bg=normal text.bg}
+		\setbeamercolor{separation line}{}
+		\setbeamercolor{sidebar}{bg=red}
+		\setbeamercolor{sidebar}{parent=palette primary}
+		\setbeamercolor{structure}{bg=teipel_red, fg=teipel_red}
+		\setbeamercolor{subsection in sidebar}{fg=brown}
+		\setbeamercolor{subsection in sidebar shaded}{fg=gray}
+		\setbeamercolor{subsection in toc}{fg=normal text.fg, bg=normal text.bg}
+		\setbeamercolor{title}{fg=white}
+		\setbeamercolor{titlelike}{fg=brown}
+		\setbeamercolor{itemize item}{fg=teipel_red}
+		%\setbeamercolor*{bibliography entry title}{fg=black}
+		%\setbeamercolor*{bibliography entry author}{fg=black}
+		\setbeamercolor*{bibliography entry location}{fg=teipel_red}
+		\setbeamercolor*{bibliography entry note}{fg=black}
+	% remove beamer's navigation bar	
+		\setbeamertemplate{navigation symbols}{}		
+	% Comment to completely cover next transparencies %%
+		\setbeamercovered{transparent=30}
+	% Table of contents before each Section
+		\AtBeginSubsection[]{
+		  \frame<beamer>{ 
+		    \frametitle{Contents}   
+		    \tableofcontents[currentsection,currentsubsection] 
+		  }
+		}
+	% Table of contents before each Section
+	\AtBeginSection[]{
+		\frame<beamer>{ 
+		  \frametitle{Contents}   
+		  \tableofcontents[currentsection,currentsubsection] 
+		}
+	  }
+    % Add draft watermark
+    \IfSubStr{#1}{draft}%
+    	{%
+        	\usepackage{tikz}%
+    		\setbeamertemplate{background}{%
+            	\begin{tikzpicture}[remember picture, overlay]
+        			\node[anchor=west, xshift=5pt, yshift=15pt] at (current page.south west){\includegraphics[width=0.12\textwidth]{pMapEx.png}};%
+            	\end{tikzpicture}%
+            }%
+        }{}
+}
+
+\newcommand{\supervisor}[3]{
+	%\subtitle{\textsc{Thesis}}
+	\logo{\begin{tabular}{c} \includegraphics[height=0.7cm,keepaspectratio]{\teilogopng} \\ \color{teipel_red}\scalebox{1.7}{\insertframenumber/\inserttotalframenumber} \end{tabular}}
+	\institute{\textsc{}\\{University of Puerto Rico, Mayaguez} \\ Department of Mathematical Sciences\\[5pt]{\includegraphics[height=1.5cm,keepaspectratio]{\teilogopng}}\\[5pt] \scalebox{0.9}{#1: #2, #3}}
+}
+
+\newcommand{\presentationDate}[1]{
+	\date{\tiny{#1}}
+}
+
+\newcommand{\typesetFrontSlides}{
+	\begin{frame}[plain]
+	  \titlepage
+	\end{frame}
+	\begin{frame}[plain]{Contents}
+	  \tableofcontents
+	\end{frame}
+}
+
+
+% format multiple author names in title page
+\makeatletter
+	\long\def\beamer@author[#1]#2{%
+  	\def\insertauthor{\def\inst{\beamer@insttitle}%
+    \def\and{\beamer@andtitle}%
+	\noexpandarg\StrCount{#2}{\and}[\numberofauthorsminusone]%
+	\ADD{1}{\numberofauthorsminusone}{\numberofauthors}%
+	\DIVIDE{1}{\numberofauthors}{\columnwidthfactor}%
+	\renewcommand\and{\column{\columnwidthfactor\textwidth}\centering}%
+	\begin{columns}[t,onlytextwidth]%
+		\column{\columnwidthfactor\textwidth}\centering%
+		#2%
+	\end{columns}%
+    }%
+  	\def\beamer@shortauthor{#1}%
+  	\ifbeamer@autopdfinfo%
+    	\def\beamer@andstripped{}%
+    	\beamer@stripands#1 \and\relax
+    	{\let\inst=\@gobble\let\thanks=\@gobble%
+        \def\and{, }\hypersetup{pdfauthor={\beamer@andstripped}}}
+  	\fi%
+}
+\makeatother
+
+\endinput
