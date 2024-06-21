@@ -20,6 +20,16 @@
 \usepackage{color}
 \usepackage{amsmath}
 \usepackage{amssymb}
+\usepackage{multicol}
+\usepackage{bm}
+\usepackage{multirow}
+
+\usepackage{array}
+\newcolumntype{x}[1]{>{\centering\arraybackslash}m{#1}}
+
+\def\arrvline{\hfil\kern\arraycolsep\vline\kern-\arraycolsep\hfilneg}
+
+\setbeamertemplate{caption}[numbered]
 
 \usepackage{epstopdf}
 \usepackage{graphicx}
@@ -118,18 +128,22 @@
 		\setbeamertemplate{navigation symbols}{}		
 	% Comment to completely cover next transparencies %%
 		\setbeamercovered{transparent=30}
-	% Table of contents before each Section
+	% Table of contents before each Subsection
 		\AtBeginSubsection[]{
 		  \frame<beamer>{ 
-		    \frametitle{Contents}   
-		    \tableofcontents[currentsection,currentsubsection] 
+		    \frametitle{Contents}
+			\begin{multicols}{2}   
+		    \tableofcontents[currentsection,currentsubsection]
+			\end{multicols} 
 		  }
 		}
 	% Table of contents before each Section
 	\AtBeginSection[]{
 		\frame<beamer>{ 
-		  \frametitle{Contents}   
-		  \tableofcontents[currentsection,currentsubsection] 
+		  \frametitle{Contents}
+		  \begin{multicols}{2}   
+		  \tableofcontents[currentsection,currentsubsection]
+		  \end{multicols} 
 		}
 	  }
     % Add draft watermark
@@ -138,7 +152,7 @@
         	\usepackage{tikz}%
     		\setbeamertemplate{background}{%
             	\begin{tikzpicture}[remember picture, overlay]
-        			\node[anchor=west, xshift=5pt, yshift=15pt] at (current page.south west){\includegraphics[width=0.12\textwidth]{pMapEx.png}};%
+        			\node[anchor=west, xshift=0pt, yshift=18pt] at (current page.south west){\includegraphics[width=0.1\textwidth]{plot3dSmall.png}};%
             	\end{tikzpicture}%
             }%
         }{}
@@ -159,7 +173,9 @@
 	  \titlepage
 	\end{frame}
 	\begin{frame}[plain]{Contents}
+	  \begin{multicols}{2}
 	  \tableofcontents
+	  \end{multicols}
 	\end{frame}
 }
 
