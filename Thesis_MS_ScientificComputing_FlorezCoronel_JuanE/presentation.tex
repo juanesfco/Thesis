@@ -60,7 +60,7 @@ Single-Subject fMRI}
 in a certain period of time to analyze the behavior of the studied body part 
 in the elapsed time, normally, the body part is stimulated to study its effect
  \cite{buchbinder2016functional}.
-\pause
+%\pause
 \item In \gls{fmri}, the brain image is divided into 3D unit volumes called voxels, 
 typically, more than $10^5$ per image.
 \end{itemize}
@@ -422,7 +422,7 @@ activation regions with respect to the noise.
 \begin{frame}{Noise in Simulations}
 \begin{figure}
 \centering
-\includegraphics[width=0.4\textwidth]{Images/cnrsnr2D.png}
+\includegraphics[width=0.4\textwidth]{images/cnrsnr2D.png}
 \caption{Numerical Distribution of the Voxel-Wise \gls{snr} and \gls{cnr} Values of 2D Map}
 \end{figure}
 \end{frame}
@@ -431,7 +431,7 @@ activation regions with respect to the noise.
 \begin{frame}{Noise in Simulations}
 \begin{figure}
 \centering
-\includegraphics[width=0.4\textwidth]{Images/cnrsnr3D.png}
+\includegraphics[width=0.4\textwidth]{images/cnrsnr3D.png}
 \caption{Numerical Distribution of the Voxel-Wise \gls{snr} and \gls{cnr} Values of 3D Map}
 \end{figure}
 \end{frame}
@@ -442,14 +442,14 @@ activation regions with respect to the noise.
 \column{0.49\linewidth}
 \begin{figure}
 \centering
-\includegraphics[width=0.9\textwidth]{Images/snr2D_Spatial.png}
+\includegraphics[width=0.9\textwidth]{images/snr2D_Spatial.png}
 \caption{Spatial Distribution of the \gls{snr} Values in 2D Map}
 \end{figure}
 
 \column{0.49\linewidth}
 \begin{figure}
 \centering
-\includegraphics[width=0.9\textwidth]{Images/cnr2D_Spatial.png}
+\includegraphics[width=0.9\textwidth]{images/cnr2D_Spatial.png}
 \caption{Spatial Distribution of the \gls{cnr} Values in 2D Map}
 \end{figure}
 \end{columns}
@@ -461,7 +461,7 @@ activation regions with respect to the noise.
 \begin{frame}{Example of bFAST Iterations}
 \begin{figure}
 \centering
-\includegraphics[width=0.65\textwidth]{Images/bfastEx2D.png}
+\includegraphics[width=0.65\textwidth]{images/bfastEx2D.png}
 \caption{Example in 2D Map for $p,q=0$}
 \end{figure}
 \end{frame}
@@ -470,7 +470,7 @@ activation regions with respect to the noise.
 \begin{frame}{Example of bFAST Iterations}
 \begin{figure}
 \centering
-\includegraphics[width=0.65\textwidth]{Images/bfastEx3D.png}
+\includegraphics[width=0.65\textwidth]{images/bfastEx3D.png}
 \caption{Example in $z=20$ Plane of 3D Map for $p,q=0$}
 \end{figure}
 \end{frame}
@@ -497,7 +497,7 @@ and an average value for the \gls{snr} and \gls{cnr} is also presented.
 \begin{frame}{Performance Metrics}
 \begin{figure}
 \centering
-\includegraphics[width=0.4\textwidth]{Images/ji2D.png}
+\includegraphics[width=0.4\textwidth]{images/ji2D.png}
 \caption{\acrlong{ji} in 2D Map}
 \end{figure}
 \end{frame}
@@ -506,7 +506,7 @@ and an average value for the \gls{snr} and \gls{cnr} is also presented.
 \begin{frame}{Performance Metrics}
 \begin{figure}
 \centering
-\includegraphics[width=0.4\textwidth]{Images/ji3D.png}
+\includegraphics[width=0.4\textwidth]{images/ji3D.png}
 \caption{\acrlong{ji} in 3D Map}
 \end{figure}
 \end{frame}
@@ -576,31 +576,35 @@ and an average value for the \gls{snr} and \gls{cnr} is also presented.
 
 %%%% 33
 \begin{frame}{bFAST in Real Data}
-\begin{columns}
-
-\column{0.35\linewidth}
-\begin{figure}
-\centering
-\includegraphics[angle=90,height=0.75in]{Images/realDataYZ.png}
-\caption{$x=36$ Plane}
-\end{figure}
-
-\begin{figure}
-\centering
-\includegraphics[height=0.75in]{Images/realDataXY.png}
-\caption{$z=18$ Plane}
-\end{figure}
-
-\column{0.64\linewidth}
 \begin{itemize}
-\item Theory of Mind \gls{fmri} experiment
+\item Theory of Mind \gls{fmri} experiment by Moran (2012) \cite{moran2012social}.
+\item 48 participants, most of them in their 20's and some other in their 70's.
 \item Gradient-echo echo-planar pulse sequence on a 3T Tim Trio MRI scanner
-\item Stimulus is a false belief question
+\item Stimulus are false belief question, false belief
+story, false photo question, and false photo story.
 \item Data has dimensions $72\times72\times36$ of 2 mm isotropic voxels.
 \item 40078 Voxels in the Region of Interest
-\item bFAST identified 1766 active voxels (4.41 A\%)
+\item bFAST identified 1766 active voxels (4.41 \gls{poa}) on the false belief 
+question stimulus in the try 1 of subject 1.
 \end{itemize}
+\end{frame}
 
+%%%% 34
+\begin{frame}{bFAST in Real Data}
+\begin{columns}
+\column{0.49\linewidth}
+\begin{figure}
+\centering
+\includegraphics[width=0.99\textwidth]{images/plot3dAct.png}
+\caption{Activation Regions Identified by bFAST}
+\end{figure}
+
+\column{0.49\linewidth}
+\begin{figure}
+\centering
+\includegraphics[width=0.99\textwidth]{images/plot3dAct2.png}
+\caption{Activation Regions Identified by bFAST}
+\end{figure}
 \end{columns}
 \end{frame}
 
