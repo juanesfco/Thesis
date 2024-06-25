@@ -7,7 +7,7 @@
 % Thesis Info %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % title
-\title[bFAST in Single-Subject fMRI]{A Bayesian Adaptive Smoothing and 
+\title[BFAST in Single-Subject fMRI]{A Bayesian Adaptive Smoothing and 
 Thresholding Approach for Activation Detection in 
 Single-Subject fMRI}	
 % author 
@@ -32,16 +32,9 @@ Single-Subject fMRI}
 %%%%%%%%%%%%%%%%
 % Your Slides Start here:
 
-\section{Acronyms}
-
-%%%% 1
-\begin{frame}
-\include{prelim/acronyms} %edit acronyms.tex
-\end{frame}
-
 \section{Introduction}
 
-\subsection[fMRI]{Components of fMRI}
+\subsection[fMRI]{What is fMRI?}
 
 %%%% 2
 \begin{frame}{What is fMRI?}
@@ -56,7 +49,7 @@ Single-Subject fMRI}
 \end{figure}
 \column{0.65\linewidth}
 \begin{itemize}
-\item \gls{fmri} is a non-invasive technique that take a series of MRI captures
+\item \acrfull{fmri} is a non-invasive technique that take a series of MRI captures
 in a certain period of time to analyze the behavior of the studied body part 
 in the elapsed time, normally, the body part is stimulated to study its effect
  \cite{buchbinder2016functional}.
@@ -70,7 +63,7 @@ typically, more than $10^5$ per image.
 %%%% 3
 \begin{frame}{BOLD}
 \begin{itemize}
-\item The most common technique to generate images is the \gls{bold}.
+\item The most common technique to generate images is the \acrfull{bold}.
 \item \gls{bold} measures the local changes in deoxyhemoglobin 
 concentration in the brain.
 \item The change in oxygenation produces different local magnetic fields.
@@ -86,7 +79,7 @@ concentration in the brain.
 \end{figure}
 \end{frame}
 
-\subsection{Previus Works}
+\subsection{Previous Works}
 
 %%%% 5
 \begin{frame}{Previous Works}
@@ -98,13 +91,13 @@ stimuli or task \cite{orchard2003simultaneous, deneux2006using, ardekani1999acti
 \item Methods used include time-series analysis, statistical parametric mapping, 
 multivariate pattern classification, Bayesian modeling, among others 
 \cite{adrian2018complex, marchini2004comparing, mumford2012deconvolving, makni2008fully}.
-\item \gls{ast} method is also used by several researchers 
+\item \acrfull{ast} method is also used by several researchers 
 \cite{tabelow2006analyzing, lindquist2010adaptive, strappini2017adaptive,almodovar2019fast}.
 \end{itemize}
 
 \end{frame}
 
-\subsection{Objectives}
+\section{Objectives}
 
 %%%% 6
 \begin{frame}{Objectives}
@@ -113,20 +106,30 @@ multivariate pattern classification, Bayesian modeling, among others
 map of an \gls{fmri} image for a single-subject situation.
 \item Develop an \gls{ast} method that inputs the probability posterior map 
 and finds the possible activated voxels.
-\item Study the proposed algorithm in different simulation frameworks. Study 
-the results in terms of similarity, rate of false positives, and \gls{poa}.
-\item Finally, apply the algorithm to a real dataset.
+\item Study the proposed algorithm in different experimental setups in terms of 
+similarity, rate of false positives, and \acrlong{poa}.
+\item Finally, apply the algorithm in a real \gls{fmri} experiment.
 \end{itemize}
 \end{frame}
 
+%\subsection{Intellectual Merit}
+
+%%%% 33
+%\begin{frame}{Intellectual Merit}
+%\begin{itemize}
+%\item The \acrfull{bfast} algorithm is an innovative procedure in the area of 
+%activation detection in \gls{fmri} studies.
+%\end{itemize}
+%\end{frame}
+
 \section{Methods}
 
-\subsection{Bayesian Analysis}
+%\subsection{Bayesian Analysis}
 
 %%%% 7
 \begin{frame}{Time Series Model}
 \begin{itemize}
-\item Each voxel has a time series associated to it.
+%\item Each voxel has a time series associated to it.
 \item Let $\bm{y}_i$ be the response variable of the $i$th voxel, $\bm{X}$ 
 be the design matrix of the study containing the expected \gls{bold} change and 
 $\bm{\beta}_i$ be the coefficient that contains the stimulus, then:
@@ -147,26 +150,27 @@ $$ \bm{y}_i|\bm{\beta}_i, \sigma, \bm{X} \sim N \left( \bm{X} \bm{\beta}_i,\sigm
 
 $$\pi \left( \bm{\beta}_i, \sigma \right) \propto \frac{1}{\sigma^{2}}$$
 
-\item Using the Bayes' Rule and the ordinary least squares solution to a linear problem 
+\item Using the Bayes' rule and the ordinary least squares solution to a linear problem 
 $\bm{\hat{\beta}}_i = \left( \bm{X}^T\bm{X} \right)^{-1}\bm{X}^T \bm{y}_i$, the 
 conditional posterior of $\bm{\beta}_i$, given $\sigma$ is then:
 
-$$\pi \left( \bm{\beta}_i|\sigma ,\bm{y}_i \right) \sim N\left( \bm{\hat{\beta}}_i, \left( \bm{X}^T\bm{X} \right)^{-1} \sigma^2 \right).$$
+$$\pi \left( \bm{\beta}_i|\sigma , \bm{X}, \bm{y}_i \right) \sim N\left( \bm{\hat{\beta}}_i, \left( \bm{X}^T\bm{X} \right)^{-1} \sigma^2 \right).$$
 \end{itemize}
 \end{frame}
 
 %%%% 9
 \begin{frame}{Posterior Probability Maps}
 \begin{itemize}
-\item Now, for each voxel, $i$, in the region of interest of our study, 
+\item For each voxel, $i$, in the region of interest, we 
 calculate the posterior probability that the coefficient associated with 
-the stimulus, $t$, is not zero, which is roughly estimated using: 
+the stimulus $t$ has a positive effect in the \gls{bold} response. 
+Thich is roughly estimated using: 
 
 $$P(\bm{\beta}_{i,t} > 0 | \bm{y}_i, \bm{X}).$$
 
 \item Let 
 $\bm{\mathbb{P}} = \left\{ P(\bm{\beta}_{i,t} > 0 | \bm{y}_i, \bm{X}) \right\}_{i=[1,v]}$ 
-represent a Posterior Probability Map, where $v$ is the number of voxels in 
+represent a posterior probability map, where $v$ is the number of voxels in 
 the region of interest of an \gls{fmri} experiment.
 \end{itemize}
 \end{frame}
@@ -176,16 +180,16 @@ the region of interest of an \gls{fmri} experiment.
 \begin{figure}
 \centering
 \includegraphics[width=0.9\textwidth]{Images/pMapEx.png}
-\caption{Example of a Posterior Probability Map}
+\caption{Axial View of a Posterior Probability Map}
 \end{figure}
 \end{frame}
 
-\subsection{bFAST Algorithm}
+%\subsection{\gls{bfast} Algorithm}
 
 %%%% 11
 \begin{frame}{Relevant Distributions}
 \begin{itemize}
-\item We will study $\bm{\mathbb{P}}$ as a \gls{tn} Distribution 
+\item We will study $\bm{\mathbb{P}}$ as a \acrfull{tn} Distribution 
 in the interval $[0,1]$.
 \item $TN(0,1)$ is in the domain of maximal attraction of the limiting 
 distribution $G$, a Gumbel distribution.
@@ -201,26 +205,22 @@ distribution $G$, a Gumbel distribution.
 \begin{frame}{Gaussian Kernel Smoothing}
 \begin{itemize}
 \item Convolution of the image with:
-\begin{itemize}
-\item Gaussian function in 2D: 
-$G(x,y) = \frac{1}{2\pi\sigma_{s}^2} \exp \left( -\frac{x^2+y^2}{2\sigma_{s}^2} \right)$.
-\item This can be extended to 3D.
-\end{itemize}
+
+$$G(x,y) = \frac{1}{2\pi\sigma_{s}^2} \exp \left( -\frac{x^2+y^2}{2\sigma_{s}^2} \right).$$
+
 \end{itemize}
 \begin{figure}
 \centering
 \includegraphics[width=0.8\textwidth]{images/pMapExSmoothing.png}
-\caption{Example of the Smoothing Process in Posterior Probability Map}
+\caption{Example of the Smoothing Process in Posterior Probability Map Using $\sigma_{s}=100$}
 \end{figure}
 \end{frame}
 
 %%%% 13
 \begin{frame}{\acrfull{ji}}
 \begin{itemize}
-\item Used to calculate image similarity:
-\begin{itemize}
-\item $ J(\bm{A},\bm{B}) = \frac{|\bm{A} \cap \bm{B}|}{|\bm{A} \cup \bm{B}|} $
-\end{itemize}
+\item Used to calculate image similarity: $ J(\bm{A},\bm{B}) = \frac{|\bm{A} \cap \bm{B}|}{|\bm{A} \cup \bm{B}|} $
+
 \end{itemize}
 \begin{figure}
 \centering
@@ -230,7 +230,7 @@ $G(x,y) = \frac{1}{2\pi\sigma_{s}^2} \exp \left( -\frac{x^2+y^2}{2\sigma_{s}^2} 
 \end{frame}
 
 %%%% 14
-\begin{frame}{bFAST Algorithm}
+\begin{frame}{\gls{bfast} Algorithm}
 \begin{itemize}
 \item Initialization
 \begin{itemize}
@@ -243,7 +243,7 @@ $G(x,y) = \frac{1}{2\pi\sigma_{s}^2} \exp \left( -\frac{x^2+y^2}{2\sigma_{s}^2} 
 \end{frame}
 
 %%%% 15
-\begin{frame}{bFAST Algorithm}
+\begin{frame}{\gls{bfast} Algorithm}
 \begin{itemize}
 \item For $k=1,2,\dots,$ iterate as follows:
 \begin{itemize}
@@ -260,7 +260,7 @@ $G(x,y) = \frac{1}{2\pi\sigma_{s}^2} \exp \left( -\frac{x^2+y^2}{2\sigma_{s}^2} 
 \end{frame}
 
 %%%% 16
-\begin{frame}{bFAST Algorithm}
+\begin{frame}{\gls{bfast} Algorithm}
 \begin{itemize}
 \item Termination
 \begin{itemize}
@@ -271,9 +271,9 @@ $G(x,y) = \frac{1}{2\pi\sigma_{s}^2} \exp \left( -\frac{x^2+y^2}{2\sigma_{s}^2} 
 \end{itemize}
 \end{frame}
 
-\section{Simulations}
+\section{Experiments}
 
-\subsection{True Maps}
+%\subsection{True Maps}
 
 %%%% 17
 \begin{frame}{True Maps Summary}
@@ -305,7 +305,7 @@ least 4 active voxels. If so, mark it as active.
 \end{itemize}
 \end{frame}
 
-\subsection{Design Matrix}
+%\subsection{Design Matrix}
 
 %%%% 19
 \begin{frame}{Design Matrix}
@@ -331,7 +331,17 @@ Time Between Stimulus & 18 - 25 seconds \\ \hline
 \end{itemize}
 \end{frame}
 
-\subsection{BOLD}
+%%%% 19
+\begin{frame}{Design Matrix}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.99\textwidth]{images/dMatSimEx.png}
+\caption{Transposed Design Matrix with Glover Hemodynamic Response and Constant Regressor}
+\end{figure}
+\end{frame}
+
+%\subsection{BOLD}
 
 %%%% 20
 \begin{frame}{\acrshort{bold}}
@@ -360,7 +370,7 @@ $$
 \end{itemize}
 \end{frame}
 
-\subsection{Noise}
+%\subsection{Noise}
 
 %%%% 21
 \begin{frame}{Noise with ARMA}
@@ -399,24 +409,34 @@ as parameters. See Table \ref{tab:parSelE}.
 \end{table}
 \end{frame}
 
+\begin{frame}
+\begin{figure}
+\centering
+\includegraphics[width=0.8\textwidth]{images/activeBOLD.png}
+\caption{Example of BOLD Signal in Active Voxels With and Without Noise}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+\begin{figure}
+\centering
+\includegraphics[width=0.8\textwidth]{images/inactiveBOLD.png}
+\caption{Example of BOLD Signal in Inactive Voxels With and Without Noise}
+\end{figure}
+\end{frame}
+
 %%%% 23
 \begin{frame}{\acrshort{snr} and \acrshort{cnr}}
 \begin{itemize}
 \item \acrfull{snr} represents how strong the signal is with respect to the noise.
-\begin{itemize}
-\item Generally, the \gls{snr} value of an \gls{fmri} experiment is around 4.
-\end{itemize}
 \item \acrfull{cnr} represents how significant is the \gls{bold} change in 
 activation regions with respect to the noise.
-\begin{itemize}
-\item Generally, the \gls{cnr} value of an \gls{fmri} experiment is around 3.
-\end{itemize}
 \end{itemize}
 \end{frame}
 
-\section{Results}
+\section{Experiments Results}
 
-\subsection{Noise}
+%\subsection{Noise}
 
 %%%% 24
 \begin{frame}{Noise in Simulations}
@@ -455,10 +475,10 @@ activation regions with respect to the noise.
 \end{columns}
 \end{frame}
 
-\subsection{Iterations Example}
+%\subsection{Iterations Example}
 
 %%%% 27
-\begin{frame}{Example of bFAST Iterations}
+\begin{frame}{Example of \gls{bfast} Iterations}
 \begin{figure}
 \centering
 \includegraphics[width=0.65\textwidth]{images/bfastEx2D.png}
@@ -467,20 +487,20 @@ activation regions with respect to the noise.
 \end{frame}
 
 %%%% 28
-\begin{frame}{Example of bFAST Iterations}
+\begin{frame}{Example of \gls{bfast} Iterations}
 \begin{figure}
 \centering
-\includegraphics[width=0.65\textwidth]{images/bfastEx3D.png}
-\caption{Example in $z=20$ Plane of 3D Map for $p,q=0$}
+\includegraphics[width=0.99\textwidth]{images/plot3dSimActPr2.png}
+\caption{Example of 3D Maps for $p,q=0$}
 \end{figure}
 \end{frame}
 
-\subsection{Performance Metrics}
+%\subsection{Performance Metrics}
 
 %%%% 29
 \begin{frame}{Performance Metrics}
 \begin{itemize}
-\item The performance of the bFAST algorithm was evaluated by comparing 
+\item Performance of the \gls{bfast} algorithm was evaluated by comparing 
 the final activation map with the true activation map using:
 \begin{itemize}
 \item \gls{ji}: Similarity between the two maps.
@@ -488,8 +508,6 @@ the final activation map with the true activation map using:
 really active and the total number of inactive voxels.
 \item \gls{poa}: Percentage of active voxels between both maps.
 \end{itemize}
-\item Performance was evaluated in each of the noise scenarios considered 
-and an average value for the \gls{snr} and \gls{cnr} is also presented. 
 \end{itemize}
 \end{frame}
 
@@ -523,7 +541,7 @@ and an average value for the \gls{snr} and \gls{cnr} is also presented.
 \caption{Performance Metrics Summary in 2D Case}
 \begin{tabular}{ccccccc}
 \hline
-\textbf{P} & \textbf{Q} & \textbf{SNR} & \textbf{CNR} & \gls{ji} & \gls{fpr} & \gls{poa} \\ \hline
+\textbf{p} & \textbf{q} & \textbf{SNR} & \textbf{CNR} & \gls{ji} & \gls{fpr} & \gls{poa} \\ \hline
 \multirow{4}{*}{0} & 0 & 4.0841 & 3.0344 & 0.9256 & 0.0078 & 19.663 \\
  & 1 & 3.6815 & 2.9342 & 0.8925 & 0.0180 & 20.515 \\
  & 2 & 3.5788 & 2.9035 & 0.8754 & 0.0227 & 20.858 \\
@@ -548,10 +566,10 @@ and an average value for the \gls{snr} and \gls{cnr} is also presented.
 \begin{frame}{Performance Metrics}
 \begin{table}
 \centering
-\caption{Performance Metrics Summary in 2D Case}
+\caption{Performance Metrics Summary in 3D Case}
 \begin{tabular}{ccccccc}
 \hline
-\textbf{P} & \textbf{Q} & \textbf{SNR} & \textbf{CNR} & \gls{ji} & \gls{fpr} & \gls{poa} \\ \hline
+\textbf{p} & \textbf{q} & \textbf{SNR} & \textbf{CNR} & \gls{ji} & \gls{fpr} & \gls{poa} \\ \hline
 \multirow{4}{*}{0} & 0 & 4.0430 & 2.6156 & 0.7677 & 0.0046 & 3.8075 \\
  & 1 & 3.6401 & 2.5873 & 0.7249 & 0.0068 & 3.9950 \\
  & 2 & 3.5348 & 2.5699 & 0.6796 & 0.0086 & 4.0675 \\
@@ -572,40 +590,102 @@ and an average value for the \gls{snr} and \gls{cnr} is also presented.
 \end{table}
 \end{frame}
 
-\subsection{Real Case}
+\section{BFAST in Real Data}
 
 %%%% 33
-\begin{frame}{bFAST in Real Data}
+\begin{frame}{Real Life Application - Theory of Mind}
 \begin{itemize}
 \item Theory of Mind \gls{fmri} experiment by Moran (2012) \cite{moran2012social}.
 \item 48 participants, most of them in their 20's and some other in their 70's.
 \item Gradient-echo echo-planar pulse sequence on a 3T Tim Trio MRI scanner
-\item Stimulus are false belief question, false belief
-story, false photo question, and false photo story.
+\end{itemize}
+\end{frame}
+
+%%%% 33
+\begin{frame}{Data Description}
+\begin{itemize}
+\item Stimulus are false belief question (fbq), false belief
+story (fbs), false photo question (fpq), and false photo story (fps).
 \item Data has dimensions $72\times72\times36$ of 2 mm isotropic voxels.
 \item 40078 Voxels in the Region of Interest
-\item bFAST identified 1766 active voxels (4.41 \gls{poa}) on the false belief 
+\item \gls{bfast} identified 1766 active voxels (4.41 \gls{poa}) on the false belief 
 question stimulus in the try 1 of subject 1.
 \end{itemize}
 \end{frame}
 
-%%%% 34
-\begin{frame}{bFAST in Real Data}
-\begin{columns}
-\column{0.49\linewidth}
+%%%% 33
+\begin{frame}{Design Matrix}
 \begin{figure}
 \centering
-\includegraphics[width=0.99\textwidth]{images/plot3dAct.png}
-\caption{Activation Regions Identified by bFAST}
+\includegraphics[width=0.9\textwidth]{images/dMatEx.png}
+\caption{Design Matrix of the Experiment}
 \end{figure}
+\end{frame}
 
-\column{0.49\linewidth}
+%%%% 34
+%\begin{frame}{\gls{bfast} Results}
+%\begin{columns}
+%\column{0.49\linewidth}
+%\begin{figure}
+%\centering
+%\includegraphics[width=0.99\textwidth]{images/plot3dAct.png}
+%\caption{Activation Regions Identified by \gls{bfast}}
+%\end{figure}
+
+%\column{0.49\linewidth}
+%\begin{figure}
+%\centering
+%\includegraphics[width=0.99\textwidth]{images/plot3dAct2.png}
+%\caption{Activation Regions Identified by \gls{bfast}}
+%\end{figure}
+%\end{columns}
+%\end{frame}
+
+%%%% 34
+\begin{frame}{\gls{bfast} Results}
 \begin{figure}
 \centering
-\includegraphics[width=0.99\textwidth]{images/plot3dAct2.png}
-\caption{Activation Regions Identified by bFAST}
+\includegraphics[width=0.99\textwidth]{images/plot3dActFinalNuevo.png}
+\caption{Activation Regions Identified by \gls{bfast}}
 \end{figure}
-\end{columns}
+\end{frame}
+
+\section{Conclusions}
+
+%%%% 33
+\begin{frame}{Conclusions}
+\begin{itemize}
+\item \gls{bfast} algorithm in simulated frameworks:
+\begin{itemize}
+\item 1600 scenarios of different dimension and noise.
+\item With respect to the expected outputs:
+\begin{itemize}
+\item Average similarity of 0.85.
+\item False positive ratio below 0.02.
+\end{itemize}
+\end{itemize}
+\item \gls{bfast} algorithm in the theory of mind cognitive experiment:
+\begin{itemize}
+\item Activation percentage of 4.41\% is usual in \gls{fmri}.
+\item Apparent activations in:
+\begin{itemize}
+\item Prefrontal cortex because cognitive work stimulates memory.
+\item Occipital lobe because the stimulus were presented visually.
+\end{itemize}
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\subsection{Future Work}
+
+%%%% 33
+\begin{frame}{Future Work}
+\begin{itemize}
+\item Modify parameters from the \gls{bfast} algorithm such as the 
+normalization coefficients, the computation of the threshold, and the 
+smoothing coefficient, among others.
+\item Use the \gls{bfast} algorithm in other real life applications.
+\end{itemize}
 \end{frame}
 
 \section{References}
@@ -613,6 +693,13 @@ question stimulus in the try 1 of subject 1.
 %%%% 33-37
 \begin{frame}[allowframebreaks]{References}
 \bibliography{referencias}
+\end{frame}
+
+%\section{Acronyms}
+
+%%%% 1
+\begin{frame}
+\include{prelim/acronyms} %edit acronyms.tex
 \end{frame}
 
 %%

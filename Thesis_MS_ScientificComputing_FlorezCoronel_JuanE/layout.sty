@@ -129,23 +129,23 @@
 	% Comment to completely cover next transparencies %%
 		\setbeamercovered{transparent=30}
 	% Table of contents before each Subsection
-		\AtBeginSubsection[]{
-		  \frame<beamer>{ 
-		    \frametitle{Contents}
-			\begin{multicols}{2}   
-		    \tableofcontents[currentsection,currentsubsection]
-			\end{multicols} 
-		  }
-		}
+		%\AtBeginSubsection[]{
+		%  \frame<beamer>{ 
+		%    \frametitle{Contents}
+		%	\begin{multicols}{2}   
+		%    \tableofcontents[currentsection,currentsubsection]
+		%	\end{multicols} 
+		%  }
+		%}
 	% Table of contents before each Section
-	\AtBeginSection[]{
-		\frame<beamer>{ 
-		  \frametitle{Contents}
-		  \begin{multicols}{2}   
-		  \tableofcontents[currentsection,currentsubsection]
-		  \end{multicols} 
-		}
-	  }
+	%\AtBeginSection[]{
+	%	\frame<beamer>{ 
+	%	  \frametitle{Contents}
+	%	  \begin{multicols}{2}   
+	%	  \tableofcontents[currentsection,currentsubsection]
+	%	  \end{multicols} 
+	%	}
+	%  }
     % Add draft watermark
     \IfSubStr{#1}{draft}%
     	{%
