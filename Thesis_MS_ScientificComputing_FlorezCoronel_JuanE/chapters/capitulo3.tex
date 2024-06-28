@@ -55,9 +55,9 @@ $
 Finally, for each voxel, $i$, in the region of interest of our study, 
 we calculate the posterior probability that the coefficient associated with the 
 stimulus, $t$, is not zero, which is 
-$P(\bm{\beta}_{i,t} > 0 | \bm{y}_i, \bm{X})$.
+$P(\bm{\beta}_{i,t} > 0 | \bm{y}_i, \bm{X}, \sigma)$.
 
-Let $\bm{\mathbb{P}} = \left\{ P(\bm{\beta}_{i,t} > 0 | \bm{y}_i, \bm{X}) \right\}_{i=[1,v]}$ 
+Let $\bm{\mathbb{P}} = \left\{ P(\bm{\beta}_{i,t} > 0 | \bm{y}_i, \bm{X},\sigma) \right\}_{i=[1,v]}$ 
 represent a \gls{ppm}, where $v$ is the number of voxels in the region of interest of a \gls{fmri} experiment. 
 Our goal now is to calculate a threshold and find activated regions using $\bm{\mathbb{P}}$, 
 for which we propose the \gls{bfast} algorithm.
@@ -179,3 +179,5 @@ calculate $v_k=\sum_{i=1}^v\left(1-\zeta_i^{(k)}\right)$.
 \item The maximum number of iterations is by default $k=10$.
 \end{enumerate}
 \end{enumerate}
+
+% Contestar las preguntas de roberto en párrafo
