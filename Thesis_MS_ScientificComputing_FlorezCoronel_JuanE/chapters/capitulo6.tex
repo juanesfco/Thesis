@@ -1,33 +1,36 @@
 \chapter{\texorpdfstring{\gls{bfast}}{BFAST} in a Real Dataset}
 
-The \gls{bfast} Algorithm was used in a Real Dataset of an \gls{fmri} experiment \cite{moran2012social}. 
-In this experiment, functional data from several subjects was acquired using using a
-gradient-echo echo-planar pulse sequence on a 3T Tim Trio MRI scanner while performing three different 
-social-cognitive tasks. The data has dimensions $72\times72\times36$ of 2 mm isotropic voxels. It has 
+The \gls{bfast} Algorithm was used in the dataset of the Theory of Ming \gls{fmri} experiment 
+by Moran (2012) \cite{moran2012social}. 
+In this experiment, 31 participants of age around 23 and 17 participants of age around 72 were 
+subject to several cognitive stimulus and data from their brain was compiled using a
+gradient-echo echo-planar pulse sequence on a 3T Tim Trio MRI scanner. The machine produces data with  
+dimensions $72\times72\times36$ of 2 mm isotropic voxels. It has 
 recorded data from 179 timeframes taken every 2 seconds. The events log reports four types of stimulus 
-which are false belief question, false belief story, false photo question, and false photo story.
-
-In order to test and analyze the \gls{bfast} Algorithm results, only 
+which are false belief question (fbq), false belief story (fbs), false photo question (fpq), and 
+false photo story (fps). In order to test and analyze the \gls{bfast} Algorithm results, only 
 the data for the false belief question stimulus of the run 1 for the subject 1 was taken into 
-consideration. This resulted in a $4.41\%$ of activation with respect to the region of interest 
-of the \gls{fmri} data. In Figures \ref{fig:realDataYZ} and \ref{fig:realDataXY}, 
-the activation regions in the $x=36$ and $z=18$ planes of the image are shown, respectively. 
+consideration. The design matrix considered for this data is presented in Figure \ref{fig:desMatEx}.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.8\textwidth]{images/dMatEx.png}
+\caption{Design Matrix of Run 1 of Subject 1 of Moran (2012) Experiment}
+\label{fig:desMatEx}
+\end{figure}
+
+\gls{bfast} algorithm identified 1766 active voxels ($4.41\%$ \gls{poa}). In Figure
+\ref{fig:realDataYZ}, the activation regions on some cuts of the brain are shown. 
 This percentage of activation seems correct compared to the average percentage of activation in
 \gls{fmri} experiments \cite{lazar2008statistical}. The results also suggest that the prefrontal 
 cortex is active during the stimulus, this is correct because the prefrontal cortex is where some
 part of the memory of humans is processed and this is common in this types of cognitive 
-tasks \cite{amin2012brain}. 
+tasks \cite{amin2012brain}. Additionally, the occipital lobe also appears to be active and that is
+because the stimulus are presented visually.
 
 \begin{figure}[htbp!]
 \centering
-\includegraphics[width=0.6\textwidth]{images/plot3dAct.png}
+\includegraphics[width=0.9\textwidth]{images/plot3dActFinalNuevo.png}
 \caption{Activation Regions in Run 1 of Subject 1 During a False Belief Question Stimulus According to \gls{bfast} Algorithm}
 \label{fig:realDataYZ}
-\end{figure}
-
-\begin{figure}[htbp!]
-\centering
-\includegraphics[width=0.6\textwidth]{images/plot3dAct2.png}
-\caption{Activation Regions in Run 1 of Subject 1 During a False Belief Question Stimulus According to \gls{bfast} Algorithm}
-\label{fig:realDataXY}
 \end{figure}

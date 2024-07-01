@@ -181,3 +181,18 @@ calculate $v_k=\sum_{i=1}^v\left(1-\zeta_i^{(k)}\right)$.
 \end{enumerate}
 
 % Contestar las preguntas de roberto en párrafo
+The \gls{bfast} algorithm encompasses several assumptions and parameter 
+choices that warrant further investigation for a comprehensive understanding 
+of the methodology. Firstly, it is important to note that the Bayesian analysis 
+of the time series primarily considers temporal dependence, with spatial 
+dependence only partially addressed through smoothing during each iteration. 
+Additionally, some parameters within the algorithm are selected for convenience 
+but are subject to modification in future iterations. For instance, the 
+initial value and increment for $\sigma_s$ at each iteration were chosen 
+arbitrarily to allow minimal initial smoothing, with a progressively greater 
+effect in subsequent iterations. Furthermore, the upper-tail 0.01-value of 
+the standard Gumbel distribution is currently used to calculate the threshold 
+at each iteration; however, this parameter could be adjusted to a 0.05-value 
+or be made data-dependent in future versions. Finally, the maximum number of 
+iterations is set to 10 to ensure significant smoothing, though this parameter 
+can also be modified in future iterations to refine the algorithm's performance.

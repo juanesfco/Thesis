@@ -22,22 +22,25 @@ We tested our algorithm extensively through various simulation scenarios.
 The results showed that our method performs well in terms of similarity 
 measures, false positive rates, and the percentage of detected activations. 
 These simulations demonstrated that our approach is effective, 
-especially in challenging conditions with low \gls{snr} values. Finally, we applied our algorithm to a real \gls{fmri} dataset, which confirmed 
+especially in challenging conditions with low \gls{snr} values. Finally, we applied our 
+algorithm to a real \gls{fmri} dataset, which confirmed 
 its practical utility. The real-world application showed that our method 
 can detect brain activations that align with established patterns 
 of brain activity. 
+
+Future iterations of this work can address several areas for improvement. One key 
+area is the modification of parameters within the \gls{bfast} algorithm, such as 
+normalization coefficients, threshold computation, and the smoothing coefficient. 
+Additionally, it will be essential to compare the \gls{bfast} algorithm's results 
+in real-life applications with those obtained by equivalent methods, as presented 
+in Chapter 2. Enhancements on a larger scale could include incorporating spatial 
+dependency into the Bayesian analysis, generating probability maps using methods 
+like Markov Chain Monte Carlo, and exploring different noise filtering techniques 
+for the images. These improvements will contribute to a more robust and comprehensive 
+algorithm, potentially leading to more accurate and reliable results.
 
 In summary, this thesis has developed and validated a new bayesian adaptive 
 smoothing and thresholding method for detecting brain activity in single-subject 
 \gls{fmri} data. Our contributions include a bayesian analysis framework, 
 an adaptive processing method, and thorough testing through simulations and 
 real data.
-
-%Future Works
-
-Modify parameters from the \gls{bfast} algorithm such as the
-normalization coefficients, the computation of the threshold,
-and the smoothing coefficient, among others.
-
-Compare the results obtained by the \gls{bfast} algorithm in real life
-applications with the results obtained by equivalent methods.
